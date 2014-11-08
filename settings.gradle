@@ -1,4 +1,5 @@
 rootProject.name = 'cartman'
 
 include 'cartman-core'
+include 'cartman-io'
 
