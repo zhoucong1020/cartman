@@ -61,6 +61,13 @@ project("cartman-io") {
     }
 }
 
+project("cartman-doc") {
+    description = "Cartman Doc"
+
+    dependencies {
+    }
+}
+
 def qualifyVersionIfNecessary(version) {
     if (rootProject.hasProperty("BRANCH_NAME")) {
         def qualifier = rootProject.getProperty("BRANCH_NAME")
