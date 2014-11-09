@@ -11,7 +11,7 @@ ivy-cache
 jxl.log
 jmx.log
 derby.log
-spring-test/test-output/
+cartman-test/test-output/
 .gradle
 argfile*
 pom.xml
@@ -26,7 +26,7 @@ target/
 # Eclipse artifacts, including WTP generated manifests
 .classpath
 .project
-spring-*/src/main/java/META-INF/MANIFEST.MF
+cartman-*/src/main/java/META-INF/MANIFEST.MF
 
 # IDEA artifacts and output dirs
 *.iml
