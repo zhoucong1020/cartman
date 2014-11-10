@@ -51,6 +51,7 @@ project("cartman-core") {
     description = "Cartman Core"
 
     dependencies {
+        compile(project(":cartman-io"))
     }
 }
 
