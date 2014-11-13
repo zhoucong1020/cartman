@@ -8,12 +8,12 @@ import java.util.*;
  */
 public class CommandLineArgs {
 
-    private final Map<String, List<String>> optionArgs = new HashMap<String, List<String>>();
-    private final List<String> nonOptionArgs = new ArrayList<String>();
+    private final Map<String, List<String>> optionArgs = new HashMap<>();
+    private final List<String> nonOptionArgs = new ArrayList<>();
 
     public void addOptionArg(String optionName, String optionValue) {
         if (!this.optionArgs.containsKey(optionName)) {
-            this.optionArgs.put(optionName, new ArrayList<String>());
+            this.optionArgs.put(optionName, new ArrayList<>());
         }
         if (optionValue != null) {
             this.optionArgs.get(optionName).add(optionValue);
