@@ -23,9 +23,7 @@ import java.security.cert.CertificateException;
 public class NettyServer implements Server {
     @Override
     public void start(ServerContext context) throws CertificateException, SSLException {
-        Runtime.getRuntime().addShutdownHook(new Thread(()->{
-            System.out.println("shutdown");
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(()-> System.out.println("shutdown")));
         System.out.println("start");
 
         // Configure SSL.

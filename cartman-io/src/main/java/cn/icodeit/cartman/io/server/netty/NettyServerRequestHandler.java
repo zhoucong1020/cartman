@@ -12,7 +12,8 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
- * Created by zhoucong on 14-9-28.
+ * @author zhoucong
+ * @since 0.0.1
  */
 public class NettyServerRequestHandler extends ChannelInboundHandlerAdapter {
     private static final byte[] CONTENT = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd'};
@@ -24,8 +25,8 @@ public class NettyServerRequestHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        if (msg instanceof HttpRequest) {
-            HttpRequest req = (HttpRequest) msg;
+        if (msg instanceof  FullHttpRequest) {
+            FullHttpRequest req = (FullHttpRequest) msg;
 
             if (HttpHeaders.is100ContinueExpected(req)) {
                 ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE));
@@ -41,14 +42,6 @@ public class NettyServerRequestHandler extends ChannelInboundHandlerAdapter {
                 response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
                 ctx.write(response);
             }
-        }
-
-        if (msg instanceof DefaultLastHttpContent) {
-            DefaultLastHttpContent req = (DefaultLastHttpContent) msg;
-            while (req.content().readableBytes() > 0) {
-                System.out.print((char) req.content().readByte());
-            }
-            System.out.println();
         }
     }
 

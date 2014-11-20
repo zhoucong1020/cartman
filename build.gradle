@@ -73,7 +73,7 @@ project("cartman-doc") {
 def qualifyVersionIfNecessary(version) {
     if (rootProject.hasProperty("BRANCH_NAME")) {
         def qualifier = rootProject.getProperty("BRANCH_NAME")
-        if (qualifier.startsWith("SPR-")) {
+        if (qualifier.startsWith("CTM-")) {
             return version.replace('BUILD', qualifier)
         }
     }
