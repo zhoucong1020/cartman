@@ -43,6 +43,7 @@ public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
             } else {
                 handler.handle(new Request(request), new Response(response));
             }
+            System.out.println(request.getMethod().name() + " " + request.getUri() + " " + response.getStatus().code() + " ");
 
             //keepAlive
             boolean keepAlive = HttpHeaders.isKeepAlive(request);

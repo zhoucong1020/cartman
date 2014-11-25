@@ -1,10 +1,5 @@
 package cn.icodeit.cartman.core.boot;
 
-import cn.icodeit.cartman.core.io.server.CartmanServer;
-
-import javax.net.ssl.SSLException;
-import java.security.cert.CertificateException;
-
 import static cn.icodeit.cartman.core.io.Cartman.addHandler;
 
 /**
@@ -14,7 +9,7 @@ import static cn.icodeit.cartman.core.io.Cartman.addHandler;
 public class ServerBootLoader {
     public static void main(String... args) {
         addHandler("/", (request, response) -> {
-            response.type("application/json");
+            response.type("text/html");
             response.body("{\"响应测试\":\"中文\",\"a\":\"\"}");
         });
     }
