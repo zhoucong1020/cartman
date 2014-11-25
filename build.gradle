@@ -51,13 +51,7 @@ project("cartman-core") {
     description = "Cartman Core"
 
     dependencies {
-    }
-}
-
-project("cartman-io") {
-    description = "Cartman IO"
-
-    dependencies {
+        compile "io.netty:netty-all:4.0.23.Final"
     }
 }
 
@@ -71,7 +65,7 @@ project("cartman-doc") {
 def qualifyVersionIfNecessary(version) {
     if (rootProject.hasProperty("BRANCH_NAME")) {
         def qualifier = rootProject.getProperty("BRANCH_NAME")
-        if (qualifier.startsWith("SPR-")) {
+        if (qualifier.startsWith("CTM-")) {
             return version.replace('BUILD', qualifier)
         }
     }
