@@ -1,7 +1,5 @@
-package cn.icodeit.cartman.io.server.netty;
+package cn.icodeit.cartman.core.io.server;
 
-import cn.icodeit.cartman.io.Server;
-import cn.icodeit.cartman.io.context.ServerContext;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
@@ -16,19 +14,20 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 import javax.net.ssl.SSLException;
 import java.security.cert.CertificateException;
 
+import static cn.icodeit.cartman.core.io.server.ServerContext.*;
+
 /**
  * @author zhoucong
  * @since 0.0.1
  */
-public class NettyServer implements Server {
-    @Override
-    public void start(ServerContext context) throws CertificateException, SSLException {
+public class CartmanServer {
+    public void start() throws CertificateException, SSLException {
         Runtime.getRuntime().addShutdownHook(new Thread(()-> System.out.println("shutdown")));
         System.out.println("start");
 
         // Configure SSL.
         final SslContext sslCtx;
-        if (context.isSsl()) {
+        if (ssl()) {
             SelfSignedCertificate ssc = new SelfSignedCertificate();
             sslCtx = SslContext.newServerContext(ssc.certificate(), ssc.privateKey());
         } else {
@@ -44,9 +43,9 @@ public class NettyServer implements Server {
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new NettyServerInitializer(sslCtx));
+                    .childHandler(new CartmanServerInitializer(sslCtx));
 
-            Channel channel = bootstrap.bind(context.getPort()).syncUninterruptibly().channel();
+            Channel channel = bootstrap.bind(port()).syncUninterruptibly().channel();
 
             channel.closeFuture().syncUninterruptibly();
         } finally {

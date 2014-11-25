@@ -1,4 +1,4 @@
-package cn.icodeit.cartman.io;
+package cn.icodeit.cartman.core.io;
 
 /**
  * @author zhoucong

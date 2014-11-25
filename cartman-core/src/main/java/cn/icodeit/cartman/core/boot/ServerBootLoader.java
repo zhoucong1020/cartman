@@ -1,12 +1,11 @@
 package cn.icodeit.cartman.core.boot;
 
-import cn.icodeit.cartman.io.Server;
-import cn.icodeit.cartman.io.context.ServerContext;
-import cn.icodeit.cartman.io.server.CartmanServer;
-import cn.icodeit.cartman.io.server.netty.NettyServer;
+import cn.icodeit.cartman.core.io.server.CartmanServer;
 
 import javax.net.ssl.SSLException;
 import java.security.cert.CertificateException;
+
+import static cn.icodeit.cartman.core.io.HandlerMapping.addHandler;
 
 /**
  * @author zhoucong
@@ -14,12 +13,8 @@ import java.security.cert.CertificateException;
  */
 public class ServerBootLoader {
     public static void main(String... args) {
-        run(NettyServer.class, args);
-    }
-
-    public static void run(Class<?> clazz, String... args) {
         try {
-            CartmanServer.addHandler("/", (request, response) -> {
+            addHandler("/", (request, response) -> {
                 System.out.println(request.attribute("a"));
                 System.out.println(request.attribute("b"));
 
@@ -27,9 +22,8 @@ public class ServerBootLoader {
                 response.body("hello world");
             });
 
-            Server server = (Server) clazz.newInstance();
-            server.start(new ServerContext(false, 8080));
-        } catch (InstantiationException | IllegalAccessException | CertificateException | SSLException e) {
+            new CartmanServer().start();
+        } catch (CertificateException | SSLException e) {
             e.printStackTrace();
         }
     }

@@ -1,14 +1,14 @@
-package cn.icodeit.cartman.io.server.netty;
+package cn.icodeit.cartman.core.io.server;
 
-import cn.icodeit.cartman.io.Handler;
-import cn.icodeit.cartman.io.Request;
-import cn.icodeit.cartman.io.Response;
-import cn.icodeit.cartman.io.server.CartmanServer;
+import cn.icodeit.cartman.core.io.Handler;
+import cn.icodeit.cartman.core.io.Request;
+import cn.icodeit.cartman.core.io.Response;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 
+import static cn.icodeit.cartman.core.io.HandlerMapping.mapHandler;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
@@ -18,7 +18,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * @author zhoucong
  * @since 0.0.1
  */
-public class NettyServerRequestHandler extends ChannelInboundHandlerAdapter {
+public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -37,7 +37,7 @@ public class NettyServerRequestHandler extends ChannelInboundHandlerAdapter {
             }
 
             //handle
-            Handler handler = CartmanServer.mapHandler(request.getUri());
+            Handler handler = mapHandler(request.getUri());
             if (handler == null) {
                 response.setStatus(HttpResponseStatus.NOT_FOUND);
             } else {

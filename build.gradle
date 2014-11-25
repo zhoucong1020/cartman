@@ -51,14 +51,6 @@ project("cartman-core") {
     description = "Cartman Core"
 
     dependencies {
-        compile(project(":cartman-io"))
-    }
-}
-
-project("cartman-io") {
-    description = "Cartman IO"
-
-    dependencies {
         compile "io.netty:netty-all:4.0.23.Final"
     }
 }

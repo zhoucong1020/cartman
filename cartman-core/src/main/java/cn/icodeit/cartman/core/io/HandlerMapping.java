@@ -1,7 +1,6 @@
-package cn.icodeit.cartman.io.server;
+package cn.icodeit.cartman.core.io;
 
-import cn.icodeit.cartman.io.Handler;
-import cn.icodeit.cartman.io.exception.PathAlreadyMappedException;
+import cn.icodeit.cartman.core.io.exception.PathAlreadyMappedException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +8,7 @@ import java.util.Map;
 /**
  * @author zhoucong
  */
-public class CartmanServer {
+public class HandlerMapping {
 
     public static Map<String, Handler> handlerMappings = new HashMap<>();
 

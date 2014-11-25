@@ -1,4 +1,4 @@
-package cn.icodeit.cartman.io;
+package cn.icodeit.cartman.core.io;
 
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpResponseStatus;
