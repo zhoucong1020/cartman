@@ -29,7 +29,7 @@ public class Request {
      */
     public String body()
     {
-        return request.content().toString(Charset.defaultCharset());
+        return request.content().toString(Charset.forName("UTF-8"));
     }
 
     /**
@@ -74,14 +74,6 @@ public class Request {
         String[] uParam = request.getUri().split("\\?");
         if (uParam.length == 2) {
             for (String param : uParam[1].split("&")) {
-                String[] strings = param.split("=");
-                params.put(strings[0], strings[1]);
-            }
-        }
-
-        String[] cParam = body().split("&");
-        if (cParam.length > 0) {
-            for (String param : cParam) {
                 String[] strings = param.split("=");
                 params.put(strings[0], strings[1]);
             }

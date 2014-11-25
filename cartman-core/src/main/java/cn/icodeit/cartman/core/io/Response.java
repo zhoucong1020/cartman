@@ -39,8 +39,9 @@ public class Response {
      */
     public void body(String body) {
         this.body = body;
-        response.content().writeBytes(Charset.defaultCharset().encode(body));
+        response.content().writeBytes(Charset.forName("UTF-8").encode(body));
         response.headers().add("Content-Length", response.content().readableBytes());
+        response.headers().add("charset", "utf-8");
     }
 
     /**

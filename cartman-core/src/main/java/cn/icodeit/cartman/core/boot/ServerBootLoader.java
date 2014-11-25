@@ -14,11 +14,8 @@ import static cn.icodeit.cartman.core.io.Cartman.addHandler;
 public class ServerBootLoader {
     public static void main(String... args) {
         addHandler("/", (request, response) -> {
-            System.out.println(request.attribute("a"));
-            System.out.println(request.attribute("b"));
-
-            response.type("text/plain");
-            response.body("hello world");
+            response.type("application/json");
+            response.body("{\"响应测试\":\"中文\",\"a\":\"\"}");
         });
     }
 }
