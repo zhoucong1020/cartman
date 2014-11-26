@@ -1,5 +1,9 @@
 package cn.icodeit.cartman.core.boot;
 
+import cn.icodeit.cartman.core.annotation.mode.AbstractInteraction;
+import cn.icodeit.cartman.core.annotation.parse.MethodInvoker;
+
+import static cn.icodeit.cartman.core.annotation.mode.AbstractInteraction.scanner;
 import static cn.icodeit.cartman.core.io.Cartman.addHandler;
 
 /**
@@ -8,9 +12,12 @@ import static cn.icodeit.cartman.core.io.Cartman.addHandler;
  */
 public class ServerBootLoader {
     public static void main(String... args) {
-        addHandler("/", (request, response) -> {
+       /* addHandler("/", (request, response) -> {
             response.type("text/html");
             response.body("{\"响应测试\":\"中文\",\"a\":\"\"}");
-        });
+        });*/
+
+        scanner(ServerBootLoader.class.getResource("").getPath()+"testService");
+        addHandler("/", new MethodInvoker());
     }
 }

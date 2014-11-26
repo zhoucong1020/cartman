@@ -1,5 +1,9 @@
 package cn.icodeit.cartman.core.annotation.mode;
 
+import cn.icodeit.cartman.core.annotation.MethodField;
+import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
+import cn.icodeit.cartman.core.io.Request;
+
 import java.util.List;
 
 /**
@@ -11,9 +15,11 @@ import java.util.List;
 
 public interface Interaction {
 
-    List<Object> getParamObject();
+    public String getRequestPrefix(Request request);
 
-    public default Object execute(AccessElement element) {
-        return Location.invoker(element.getClazz(), element.getMethod(), getParamObject());
-    }
+    List<Object> getParams(Request request, Convert convert);
+
+    String execute(Request request);
+
+    MethodField getRequestMethod(Request request);
 }

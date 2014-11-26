@@ -9,13 +9,13 @@ package cn.icodeit.cartman.core.annotation.mode;
 public class ParamElement {
     private String annotationName;
     private Class classType;
-    private boolean optional;
+    private boolean required;
 
 
-    public ParamElement(String annotationName, Class classType, boolean optional) {
+    public ParamElement(String annotationName, Class classType, boolean required) {
         this.annotationName = annotationName;
         this.classType = classType;
-        this.optional = optional;
+        this.required = required;
     }
 
     public String getAnnotationName() {
@@ -26,7 +26,7 @@ public class ParamElement {
         return classType;
     }
 
-    public boolean isOptional() {
-        return optional;
+    public boolean isRequired() {
+        return required;
     }
 }
