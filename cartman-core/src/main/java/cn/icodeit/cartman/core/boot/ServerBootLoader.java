@@ -17,7 +17,8 @@ public class ServerBootLoader {
             response.body("{\"响应测试\":\"中文\",\"a\":\"\"}");
         });*/
 
-        scanner(ServerBootLoader.class.getResource("").getPath()+"testService");
+        scanner("cn.icodeit.cartman.core.boot.testService");
+
         addHandler("/", new MethodInvoker());
     }
 }

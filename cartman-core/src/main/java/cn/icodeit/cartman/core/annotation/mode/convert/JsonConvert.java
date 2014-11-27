@@ -1,5 +1,7 @@
 package cn.icodeit.cartman.core.annotation.mode.convert;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * .
  * User: yuanweifeng
@@ -13,23 +15,15 @@ public class JsonConvert implements Convert {
     private JsonConvert() {
 
     }
-    //TODO
+
+
     public Object convert(String paramString, Class convertClazz) {
-
-        return "this is convert method";
-
-        //return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return JSON.parseObject(paramString, convertClazz);
     }
 
 
-    public boolean isBaseType() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    //TODO
-    public String StringConvert(Object object) {
-        return "this is stringConvert method ";
-        //return null;
+    public String stringConvert(Object object) {
+        return JSON.toJSONString(object);
     }
 
     public static Convert getInstance() {

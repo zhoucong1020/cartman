@@ -52,6 +52,7 @@ project("cartman-core") {
 
     dependencies {
         compile "io.netty:netty-all:4.0.23.Final"
+        compile "com.alibaba:fastjson:1.2.2"
     }
 }
 

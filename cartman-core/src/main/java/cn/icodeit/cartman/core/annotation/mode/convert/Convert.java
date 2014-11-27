@@ -10,7 +10,5 @@ public interface Convert {
 
     Object convert(String paramString, Class convertClazz);
 
-    boolean isBaseType();
-
-    String StringConvert(Object object);
+    String stringConvert(Object object);
 }

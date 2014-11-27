@@ -4,12 +4,9 @@ import cn.icodeit.cartman.core.annotation.Mapping;
 import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
-import cn.icodeit.cartman.core.annotation.mode.convert.JsonConvert;
-import cn.icodeit.cartman.core.boot.ServerBootLoader;
 import cn.icodeit.cartman.core.io.Request;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,12 +21,18 @@ import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.*;
  */
 public abstract class AbstractInteraction implements Interaction {
 
+    private static final String PROJECT_PATH = AbstractInteraction.class
+            .getClassLoader()
+            .getResource("")
+            .getPath();
+
     private static String packageName = "";
+
 
     public static void scanner(String annotationPackage) {
 
         packageName = annotationPackage;
-        File file = new File(packageName);
+        File file = new File(PROJECT_PATH + packageName.replace(".", "/"));
         if (!file.isDirectory()) {
             throw new IllegalArgumentException
                     ("service package name error, it is a file not a folder!");
@@ -42,12 +45,7 @@ public abstract class AbstractInteraction implements Interaction {
         Arrays.asList(file.list()).forEach(e -> {
             Class aClass = null;
             try {
-                String s = packageName + "/" + e.replace(".java", "");
-                String path = ServerBootLoader.class.getClassLoader().getResource("").getPath();
-                String replace = s.replace(path, "");
-                String replace1 = replace.replace("/", ".");
-                String replace2 = replace1.replace(".class", "");
-                aClass = Class.forName(replace2);
+                aClass = Class.forName(packageName + "." + e.replace(".class", ""));
             } catch (ClassNotFoundException e1) {
                 e1.printStackTrace();
             }
@@ -57,13 +55,13 @@ public abstract class AbstractInteraction implements Interaction {
             String serviceName = null;
             if (service == null) {
                 serviceName = aClass.getSimpleName();
-            }else{
+            } else {
                 serviceName = service.value();
 
             }
             Class classEl = aClass;
             String serviceNameCall = serviceName;
-            Arrays.asList(aClass.getMethods()).forEach(m ->
+            Arrays.asList(aClass.getDeclaredMethods()).forEach(m ->
                     {
                         Mapping mapping = m.getAnnotation(Mapping.class);
 
@@ -73,9 +71,10 @@ public abstract class AbstractInteraction implements Interaction {
                         String mappingName = null;
                         if (mapping == null) {
                             mappingName = m.getName();
-                        }else {
+                        } else {
                             mappingName = mapping.value();
                         }
+
                         Arrays.asList(m.getParameters()).forEach(p ->
 
                                 {
@@ -116,31 +115,45 @@ public abstract class AbstractInteraction implements Interaction {
 
     public String getRequestPrefix(Request request) {
         String uri = request.uri();
-        return uri.split("/?")[0];
+        String res = uri.split("\\?")[0];
+        return res.trim();
+    }
+
+    public AccessElement accessElement(Request request) {
+        return get(getRequestPrefix(request));
     }
 
 
-    public String execute(Request request) {
-        Convert instance = JsonConvert.getInstance();
-        AccessElement element = get(getRequestPrefix(request));
-        Object invoker = Location.invoker(element.getClazz(),
-                element.getMethod(), getParams(request, instance));
-        return instance.StringConvert(invoker);
+    public String execute(Request request, Convert convert) {
+        try {
+            AccessElement element = accessElement(request);
+            Object ret = Location.invoker(element,
+                    getParams(request, convert).toArray());
+
+            return convert.stringConvert(ret);
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
+
     }
 
-    @Override
+
     public MethodField getRequestMethod(Request request) {
         String method = request.requestMethod();
         return MethodField.valueOf(method);
     }
 
-    @Override
-    public List<Object> getParams(Request request, Convert convert) {
-        List<Object> result = new ArrayList<>();
+
+    private List getParams(Request request, Convert convert) {
+        List result = new ArrayList();
         AccessElement element = get(getRequestPrefix(request));
         element.getParams().forEach(e -> {
 
             String attribute = request.attribute(e.getAnnotationName());
+            if (e.isRequired() && attribute == null) {
+                throw new IllegalArgumentException
+                        ("request parameters less than expected " + e.getAnnotationName());
+            }
             if (!e.isRequired() && attribute == null) {
                 result.add("");
             }
@@ -149,4 +162,6 @@ public abstract class AbstractInteraction implements Interaction {
         });
         return result;
     }
+
+
 }

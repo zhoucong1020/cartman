@@ -14,13 +14,17 @@ import java.util.Map;
 class Location {
     private static Map<Class, Object> map = new HashMap<>();
 
-    public static Object invoker(Class clazz, Method method, Object... args) {
+    public static Object invoker(AccessElement element, Object... args) {
         try {
+            Class clazz = element.getClazz();
+            Method method = element.getMethod();
             Object invokerObject = map.get(clazz);
+
             if (invokerObject == null) {
                 invokerObject = clazz.newInstance();
                 map.put(clazz, invokerObject);
             }
+
             return method.invoke(invokerObject, args);
 
         } catch (InstantiationException e) {
@@ -33,4 +37,5 @@ class Location {
         return null;
 
     }
+
 }

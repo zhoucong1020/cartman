@@ -4,8 +4,6 @@ import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
 import cn.icodeit.cartman.core.io.Request;
 
-import java.util.List;
-
 /**
  * .
  * User: yuanweifeng
@@ -15,11 +13,10 @@ import java.util.List;
 
 public interface Interaction {
 
-    public String getRequestPrefix(Request request);
+    String getRequestPrefix(Request request);
 
-    List<Object> getParams(Request request, Convert convert);
-
-    String execute(Request request);
+    String execute(Request request, Convert convert);
 
     MethodField getRequestMethod(Request request);
+
 }
