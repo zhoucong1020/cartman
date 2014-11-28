@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class DocGenerator {
 
-    public static Set<String> modelStrs = new HashSet<>();
+    public static Set<String> modelNames = new HashSet<>();
 
     public static List<Operation> generateOperations(java.lang.reflect.Method method, Service service) {
         List<Operation> operations = new ArrayList<>();
@@ -26,7 +26,7 @@ public class DocGenerator {
             operation.setParameters(generateDocParams(method));
             operations.add(operation);
 
-            modelStrs.add(method.getReturnType().getTypeName());
+            modelNames.add(method.getReturnType().getTypeName());
         });
         return operations;
     }
@@ -40,7 +40,7 @@ public class DocGenerator {
             operation.setSummary(mapping.description());
             operation.setParameters(generateDocParams(method));
             operations.add(operation);
-            modelStrs.add(method.getReturnType().getTypeName());
+            modelNames.add(method.getReturnType().getTypeName());
         });
         return operations;
     }
@@ -61,20 +61,24 @@ public class DocGenerator {
                 docParam.setType(parameter.getParameterizedType().getTypeName());
             }
             docParams.add(docParam);
-            modelStrs.add(docParam.getType());
+            modelNames.add(docParam.getType());
         });
         return docParams;
     }
     public static DocApi generateDocApi(Map<String,AccessElement> map){
         DocApi docApi = new DocApi();
         List<DocService> docServices = docApi.getApis();
+        Set<Class> classes = new HashSet<>();
         map.forEach((str,ele)->{
-            docServices.add(DocGenerator.generateDocService(ele.getClazz()));
+            classes.add(ele.getClazz());
+        });
+        classes.forEach(clazz -> {
+            docServices.add(DocGenerator.generateDocService(clazz));
         });
         return docApi;
     }
     public static DocApi generateDocApi(List<String> list) {
-        modelStrs.clear();
+        modelNames.clear();
         DocApi docApi = new DocApi();
         List services = docApi.getApis();
         list.forEach(str -> {
@@ -125,5 +129,10 @@ public class DocGenerator {
             docMapping.setOperationses(generateOperations(method, service));
         }
         return docMapping;
+    }
+
+    private Object generateModels(Class clazz){
+
+        return null;
     }
 }

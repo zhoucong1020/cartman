@@ -55,7 +55,7 @@ public class DocScanner {
 
 
         DocApi docApi = DocGenerator.generateDocApi(DocScanner.scan("cn.icodeit.cartman.core.boot", ""));
-        DocGenerator.modelStrs.stream().forEach(s -> {
+        DocGenerator.modelNames.stream().forEach(s -> {
             System.out.println(s);
         });
         System.out.println(docApi);
