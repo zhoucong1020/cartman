@@ -3,8 +3,10 @@ package cn.icodeit.cartman.doc.parse;
 import cn.icodeit.cartman.core.annotation.Mapping;
 import cn.icodeit.cartman.core.annotation.Param;
 import cn.icodeit.cartman.core.annotation.Service;
+import cn.icodeit.cartman.core.annotation.mode.AccessElement;
 import cn.icodeit.cartman.doc.view.*;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -63,7 +65,14 @@ public class DocGenerator {
         });
         return docParams;
     }
-
+    public static DocApi generateDocApi(Map<String,AccessElement> map){
+        DocApi docApi = new DocApi();
+        List<DocService> docServices = docApi.getApis();
+        map.forEach((str,ele)->{
+            docServices.add(DocGenerator.generateDocService(ele.getClazz()));
+        });
+        return docApi;
+    }
     public static DocApi generateDocApi(List<String> list) {
         modelStrs.clear();
         DocApi docApi = new DocApi();
@@ -72,41 +81,49 @@ public class DocGenerator {
             try {
                 Class clazz = Class.forName(str);
                 if (clazz.isAnnotationPresent(Service.class)) {
-                    DocService docService = new DocService();
-                    Service service = (Service) clazz.getAnnotation(Service.class);
-                    if ("".equals(service.value())) {
-                        String name = clazz.getSimpleName();
-                        docService.setPath("/" + name.substring(0, 1).toLowerCase() + name.substring(1));
-                    } else {
-                        docService.setPath(service.value());
-                    }
-                    docService.setDescription(service.description());
-                    services.add(docService);
-                    Arrays.asList(clazz.getDeclaredMethods()).forEach(method -> {
-                        if (method.getModifiers() == 1) {
-                            DocMapping docMapping = new DocMapping();
-                            if (method.isAnnotationPresent(Mapping.class)) {
-                                Mapping mapping = method.getAnnotation(Mapping.class);
-                                docMapping.setDescription(mapping.description());
-                                if (mapping.value().toString().startsWith("/")) {
-                                    docMapping.setPath(mapping.value());
-                                } else {
-                                    docMapping.setPath(docService.getPath() + "/" + mapping.value());
-                                }
-                                docMapping.setOperationses(generateOperations(method, mapping));
-                            } else {
-                                docMapping.setDescription(method.getName());
-                                docMapping.setPath(docService.getPath() + "/" + method.getName());
-                                docMapping.setOperationses(generateOperations(method, service));
-                            }
-                            docService.getDocMappings().add(docMapping);
-                        }
-                    });
+                   services.add(generateDocService(clazz));
                 }
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         });
         return docApi;
+    }
+
+    public static DocService generateDocService(Class clazz){
+        DocService docService = new DocService();
+        Service service = (Service) clazz.getAnnotation(Service.class);
+        if ("".equals(service.value())) {
+            String name = clazz.getSimpleName();
+            docService.setPath("/" + name.substring(0, 1).toLowerCase() + name.substring(1));
+        } else {
+            docService.setPath(service.value());
+        }
+        docService.setDescription(service.description());
+        Arrays.asList(clazz.getDeclaredMethods()).forEach(method -> {
+            if (method.getModifiers() == 1) {
+                DocMapping docMapping = generateDocMapping(docService, service, method);
+                docService.getDocMappings().add(docMapping);
+            }
+        });
+        return docService;
+    }
+    public static DocMapping generateDocMapping(DocService docService, Service service, Method method) {
+        DocMapping docMapping = new DocMapping();
+        if (method.isAnnotationPresent(Mapping.class)) {
+            Mapping mapping = method.getAnnotation(Mapping.class);
+            docMapping.setDescription(mapping.description());
+            if (mapping.value().toString().startsWith("/")) {
+                docMapping.setPath(mapping.value());
+            } else {
+                docMapping.setPath(docService.getPath() + "/" + mapping.value());
+            }
+            docMapping.setOperationses(generateOperations(method, mapping));
+        } else {
+            docMapping.setDescription(method.getName());
+            docMapping.setPath(docService.getPath() + "/" + method.getName());
+            docMapping.setOperationses(generateOperations(method, service));
+        }
+        return docMapping;
     }
 }
