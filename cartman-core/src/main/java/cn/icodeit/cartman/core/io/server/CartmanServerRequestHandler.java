@@ -9,6 +9,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 
 import static cn.icodeit.cartman.core.io.Cartman.mapHandler;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
@@ -50,6 +52,7 @@ public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
             if (!keepAlive) {
                 ctx.write(response).addListener(ChannelFutureListener.CLOSE);
             } else {
+                response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
                 response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
                 ctx.write(response);
             }

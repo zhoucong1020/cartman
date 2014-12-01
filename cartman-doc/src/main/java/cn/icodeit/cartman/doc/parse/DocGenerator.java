@@ -22,6 +22,7 @@ public class DocGenerator {
             Operation operation = new Operation();
             operation.setType(method.getReturnType().getTypeName());
             operation.setMethod(m.name());
+            operation.setNickName(method.getName());
             operation.setSummary(method.getName());
             operation.setParameters(generateDocParams(method));
             operations.add(operation);
@@ -35,6 +36,7 @@ public class DocGenerator {
         List<Operation> operations = new ArrayList<Operation>();
         Arrays.asList(mapping.method()).forEach(m -> {
             Operation operation = new Operation();
+            operation.setNickName(method.getName());
             operation.setMethod(m.name());
             operation.setType(method.getReturnType().getTypeName());
             operation.setSummary(mapping.description());
@@ -107,7 +109,7 @@ public class DocGenerator {
         Arrays.asList(clazz.getDeclaredMethods()).forEach(method -> {
             if (method.getModifiers() == 1) {
                 DocMapping docMapping = generateDocMapping(docService, service, method);
-                docService.getDocMappings().add(docMapping);
+                docService.getApis().add(docMapping);
             }
         });
         return docService;
@@ -122,11 +124,11 @@ public class DocGenerator {
             } else {
                 docMapping.setPath(docService.getPath() + "/" + mapping.value());
             }
-            docMapping.setOperationses(generateOperations(method, mapping));
+            docMapping.setOperations(generateOperations(method, mapping));
         } else {
             docMapping.setDescription(method.getName());
             docMapping.setPath(docService.getPath() + "/" + method.getName());
-            docMapping.setOperationses(generateOperations(method, service));
+            docMapping.setOperations(generateOperations(method, service));
         }
         return docMapping;
     }

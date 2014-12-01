@@ -10,6 +10,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cn.icodeit.cartman.core.annotation.mode.AbstractInteraction.scanner;
+import static cn.icodeit.cartman.core.io.Cartman.addHandler;
+
 
 /**
  * Created by lcf on 2014/11/26.
@@ -35,6 +38,11 @@ public class DocScanner {
         return list;
     }
 
+    /**
+     * 当事人为二位
+     * @param file
+     * @return
+     */
     public static List<String> scanFile(File file) {
         List<String> list = new ArrayList<String>();
         if (file.isDirectory()) {
@@ -49,15 +57,7 @@ public class DocScanner {
     }
 
     public static void main(String[] args) {
-
-        AbstractInteraction.scanner("c" );
-        Cartman.addHandler("/", new MethodInvoker());
-
-
-        DocApi docApi = DocGenerator.generateDocApi(DocScanner.scan("cn.icodeit.cartman.core.boot", ""));
-        DocGenerator.modelNames.stream().forEach(s -> {
-            System.out.println(s);
-        });
-        System.out.println(docApi);
+        scanner("cn.icodeit.cartman.doc.service");
+        addHandler("/", new MethodInvoker());
     }
 }

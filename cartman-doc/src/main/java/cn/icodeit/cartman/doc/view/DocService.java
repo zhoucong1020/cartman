@@ -7,8 +7,11 @@ import java.util.List;
  * Created by lcf on 2014/11/26.
  */
 public class DocService {
+    String apiVersion;
+    String basePath;
+    String resourcePath;
     String path;
-    List<DocMapping> docMappings = new ArrayList<DocMapping>();
+    List<DocMapping> apis = new ArrayList<DocMapping>();
     String description;
 
     public String getPath() {
@@ -19,12 +22,12 @@ public class DocService {
         this.path = path;
     }
 
-    public List<DocMapping> getDocMappings() {
-        return docMappings;
+    public List<DocMapping> getApis() {
+        return apis;
     }
 
-    public void setDocMappings(List<DocMapping> docMappings) {
-        this.docMappings = docMappings;
+    public void setApis(List<DocMapping> apis) {
+        this.apis = apis;
     }
 
     public String getDescription() {
@@ -35,11 +38,35 @@ public class DocService {
         this.description = description;
     }
 
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
+    }
+
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
+
+    public String getResourcePath() {
+        return resourcePath;
+    }
+
+    public void setResourcePath(String resourcePath) {
+        this.resourcePath = resourcePath;
+    }
+
     @Override
     public String toString() {
         return "DocService{" +
                 "path='" + path + '\'' +
-                ", docMappings=" + docMappings +
+                ", apis=" + apis +
                 ", description='" + description + '\'' +
                 '}';
     }

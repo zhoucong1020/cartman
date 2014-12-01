@@ -10,7 +10,7 @@ public class Operation {
     String summary;
     String notes;
     String type;
-    String nickName;
+    String nickName="";
     List<DocParam> parameters;
     List<DocResponseMessage> docResponseMessages;
 
