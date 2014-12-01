@@ -1,16 +1,16 @@
 package cn.icodeit.cartman.doc.parse;
 
 
-import cn.icodeit.cartman.core.annotation.mode.AbstractInteraction;
 import cn.icodeit.cartman.core.annotation.parse.MethodInvoker;
-import cn.icodeit.cartman.core.io.Cartman;
-import cn.icodeit.cartman.doc.view.DocApi;
+import cn.icodeit.cartman.doc.provider.DocHandler;
+import cn.icodeit.cartman.doc.provider.DocServiceProvider;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.icodeit.cartman.core.annotation.mode.AbstractInteraction.scanner;
+import static cn.icodeit.cartman.core.annotation.parse.InitRequest.scanner;
+import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.addExcludeKey;
 import static cn.icodeit.cartman.core.io.Cartman.addHandler;
 
 
@@ -57,7 +57,9 @@ public class DocScanner {
     }
 
     public static void main(String[] args) {
-        scanner("cn.icodeit.cartman.doc.service");
+        scanner("cn.icodeit.cartman.doc.testService");
         addHandler("/", new MethodInvoker());
+        addExcludeKey("/favicon.ico");
+        DocServiceProvider.init();
     }
 }

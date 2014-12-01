@@ -22,7 +22,7 @@ public class DocGenerator {
             Operation operation = new Operation();
             operation.setType(method.getReturnType().getTypeName());
             operation.setMethod(m.name());
-            operation.setNickName(method.getName());
+            operation.setNickname(method.getName());
             operation.setSummary(method.getName());
             operation.setParameters(generateDocParams(method));
             operations.add(operation);
@@ -36,7 +36,7 @@ public class DocGenerator {
         List<Operation> operations = new ArrayList<Operation>();
         Arrays.asList(mapping.method()).forEach(m -> {
             Operation operation = new Operation();
-            operation.setNickName(method.getName());
+            operation.setNickname(method.getName());
             operation.setMethod(m.name());
             operation.setType(method.getReturnType().getTypeName());
             operation.setSummary(mapping.description());
