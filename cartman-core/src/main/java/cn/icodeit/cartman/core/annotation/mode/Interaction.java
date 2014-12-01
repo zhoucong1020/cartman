@@ -17,6 +17,4 @@ public interface Interaction {
 
     String execute(Request request, Convert convert);
 
-    MethodField getRequestMethod(Request request);
-
 }
