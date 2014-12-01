@@ -3,6 +3,8 @@ configure(allprojects) { project ->
     version = qualifyVersionIfNecessary(version)
 
     ext.junitVersion         = "4.11"
+    ext.nettyVersion         = "4.0.23.Final"
+    ext.fastjsonVersion      = "1.2.2"
 
     ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
 
@@ -47,12 +49,15 @@ configure(allprojects) { project ->
     }
 }
 
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+javadoc.options.charSet = 'UTF-8'
+
 project("cartman-core") {
     description = "Cartman Core"
 
     dependencies {
-        compile "io.netty:netty-all:4.0.23.Final"
-        compile "com.alibaba:fastjson:1.2.2"
+        compile "io.netty:netty-all:${nettyVersion}"
+        compile "com.alibaba:fastjson:${fastjsonVersion}"
     }
 }
 
@@ -60,6 +65,7 @@ project("cartman-doc") {
     description = "Cartman Doc"
 
     dependencies {
+        compile project(":cartman-core")
     }
 }
 
