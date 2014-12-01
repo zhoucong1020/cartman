@@ -52,7 +52,6 @@ public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
             if (!keepAlive) {
                 ctx.write(response).addListener(ChannelFutureListener.CLOSE);
             } else {
-                response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
                 response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
                 ctx.write(response);
             }
