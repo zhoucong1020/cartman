@@ -14,10 +14,19 @@ public class DocApi {
     String basePath;
     String resourcePath;
     List<DocService> apis = new ArrayList<>();
-    Map<String,Object> models;
+    Map<String, Object> models;
     DocInfo docInfo;
 
     public DocApi() {
+    }
+
+    public DocApi(DocApi docApi) {
+        this.apiVersion = docApi.getApiVersion();
+        this.basePath = docApi.getBasePath();
+        this.resourcePath = docApi.getResourcePath();
+        this.apis = new ArrayList<>(docApi.getApis());
+        this.models = docApi.getModels();
+        this.docInfo = docApi.getDocInfo();
     }
 
     public String getApiVersion() {
@@ -67,6 +76,7 @@ public class DocApi {
     public void setDocInfo(DocInfo docInfo) {
         this.docInfo = docInfo;
     }
+
 
     @Override
     public String toString() {

@@ -10,7 +10,7 @@ public class Operation {
     String summary;
     String notes;
     String type;
-    String nickName="";
+    String nickname ="";
     List<DocParam> parameters;
     List<DocResponseMessage> docResponseMessages;
 
@@ -46,12 +46,12 @@ public class Operation {
         this.type = type;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public List<DocParam> getParameters() {
@@ -77,7 +77,7 @@ public class Operation {
                 ", summary='" + summary + '\'' +
                 ", notes='" + notes + '\'' +
                 ", type='" + type + '\'' +
-                ", nickName='" + nickName + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", parameters=" + parameters +
                 ", docResponseMessages=" + docResponseMessages +
                 '}';
