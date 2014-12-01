@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class InitServiceCall {
 
-    private static Map<String, AccessElement> requestLocation = new HashMap<>();
+    public static Map<String, AccessElement> requestLocation = new HashMap<>();
 
     private static List<String> excludeKeys = new ArrayList<>();
 
