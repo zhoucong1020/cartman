@@ -18,15 +18,15 @@ public class ServiceA {
     @Mapping(value = "tt",method = MethodField.GET, status = ResponseCode.success)
     public String test(
             @Param(value = "xyz", description = "")
-            String abc
-           /* @Param(value = "abc",description = "")
-            String aaq*/
+            String abc,
+           @Param(value = "abc",description = "")
+            String aaq
     ) {
-        return "test method" + abc + " :";
+        return "test method " + abc + " :" +aaq;
     }
 
 
-    @Mapping(value = "ss", status = ResponseCode.success)
+    @Mapping(value = "ss", method = MethodField.POST,status = ResponseCode.success)
     public String test(
 
     ) {
