@@ -27,8 +27,7 @@ public class Request {
     /**
      * @return 默认以utf-8形式解码的body部分
      */
-    public String body()
-    {
+    public String body() {
         return request.content().toString(Charset.forName("UTF-8"));
     }
 

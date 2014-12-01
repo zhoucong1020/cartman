@@ -14,7 +14,8 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 import javax.net.ssl.SSLException;
 import java.security.cert.CertificateException;
 
-import static cn.icodeit.cartman.core.io.server.ServerContext.*;
+import static cn.icodeit.cartman.core.io.server.ServerContext.port;
+import static cn.icodeit.cartman.core.io.server.ServerContext.ssl;
 
 /**
  * @author zhoucong
@@ -22,7 +23,7 @@ import static cn.icodeit.cartman.core.io.server.ServerContext.*;
  */
 public class CartmanServer {
     public void start() throws CertificateException, SSLException {
-        Runtime.getRuntime().addShutdownHook(new Thread(()-> System.out.println("shutdown")));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("shutdown")));
         System.out.println("start");
 
         // Configure SSL.

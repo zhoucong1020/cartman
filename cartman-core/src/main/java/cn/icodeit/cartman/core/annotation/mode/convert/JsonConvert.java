@@ -13,7 +13,6 @@ public class JsonConvert implements Convert {
     private static Convert jsonInstance = new JsonConvert();
 
     private JsonConvert() {
-
     }
 
 

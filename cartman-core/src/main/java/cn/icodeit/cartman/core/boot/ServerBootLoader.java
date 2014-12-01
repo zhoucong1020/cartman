@@ -1,6 +1,5 @@
 package cn.icodeit.cartman.core.boot;
 
-import cn.icodeit.cartman.core.annotation.mode.AbstractInteraction;
 import cn.icodeit.cartman.core.annotation.parse.MethodInvoker;
 
 import static cn.icodeit.cartman.core.annotation.mode.AbstractInteraction.scanner;

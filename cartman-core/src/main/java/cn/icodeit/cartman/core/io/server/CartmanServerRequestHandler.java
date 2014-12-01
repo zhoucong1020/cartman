@@ -27,7 +27,7 @@ public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        if (msg instanceof  FullHttpRequest) {
+        if (msg instanceof FullHttpRequest) {
             FullHttpRequest request = (FullHttpRequest) msg;
             FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
 

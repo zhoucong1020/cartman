@@ -66,13 +66,16 @@ public abstract class AbstractInteraction implements Interaction {
                         Mapping mapping = m.getAnnotation(Mapping.class);
 
                         AccessElement element = new AccessElement(classEl, m);
-
+                        if(service!=null){
+                            element.setRequestMethod(service.method());
+                        }
 
                         String mappingName = null;
                         if (mapping == null) {
                             mappingName = m.getName();
                         } else {
                             mappingName = mapping.value();
+                            element.setRequestMethod(mapping.method());
                         }
 
                         Arrays.asList(m.getParameters()).forEach(p ->
@@ -126,7 +129,15 @@ public abstract class AbstractInteraction implements Interaction {
 
     public String execute(Request request, Convert convert) {
         try {
+
             AccessElement element = accessElement(request);
+
+            if(getRequestMethod(request)!=element.getRequestMethod()){
+                throw new IllegalArgumentException("un correct request method ,"
+                        +"request is "+ getRequestMethod(request)
+                + " should be " + element.getRequestMethod());
+            }
+
             Object ret = Location.invoker(element,
                     getParams(request, convert).toArray());
 
@@ -147,9 +158,10 @@ public abstract class AbstractInteraction implements Interaction {
     private List getParams(Request request, Convert convert) {
         List result = new ArrayList();
         AccessElement element = get(getRequestPrefix(request));
+
         element.getParams().forEach(e -> {
 
-            String attribute = request.attribute(e.getAnnotationName());
+            String attribute = getAttribute(request,e.getAnnotationName(),element.getRequestMethod());
             if (e.isRequired() && attribute == null) {
                 throw new IllegalArgumentException
                         ("request parameters less than expected " + e.getAnnotationName());
@@ -160,7 +172,30 @@ public abstract class AbstractInteraction implements Interaction {
             result.add(convert.convert(attribute, e.getClassType()));
 
         });
+
+
         return result;
+
+    }
+
+    private String getAttribute(Request request,String annotationName,MethodField methodField){
+       if(methodField==MethodField.GET){
+           return   request.attribute(annotationName);
+       }
+        if(methodField==MethodField.POST){
+            String body = request.body();
+
+            int i = body.indexOf(annotationName);
+            String substring = body.substring(i);
+            int i1 = substring.indexOf("&");
+            if(i1==-1){
+                  return substring.split("=")[1];
+            }
+            String substring1 = substring.substring(i, i1);
+            return substring1.split("=")[1];
+
+        }
+        throw new IllegalAccessError("un handler request method ");
     }
 
 
