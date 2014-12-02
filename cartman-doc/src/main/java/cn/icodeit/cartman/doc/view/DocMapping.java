@@ -7,9 +7,9 @@ import java.util.List;
  * Created by lcf on 2014/11/26.
  */
 public class DocMapping {
-   String path;
-   List<Operation> operations = new ArrayList<Operation>();
-   String description;
+    private  String path;
+    private  List<Operation> operations = new ArrayList<Operation>();
+    private  String description;
 
     public String getPath() {
         return path;

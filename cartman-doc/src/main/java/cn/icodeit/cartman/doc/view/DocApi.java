@@ -2,6 +2,7 @@ package cn.icodeit.cartman.doc.view;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,12 +11,12 @@ import java.util.Map;
  */
 public class DocApi {
 
-    String apiVersion;
-    String basePath;
-    String resourcePath;
-    List<DocService> apis = new ArrayList<>();
-    Map<String, Object> models;
-    DocInfo docInfo;
+    private String apiVersion = "";
+    private String basePath="";
+    private String resourcePath="";
+    private List<DocService> apis = new ArrayList<>();
+    private Map<String, Object> models = new HashMap<>();
+    DocInfo docInfo = new DocInfo();
 
     public DocApi() {
     }

@@ -4,12 +4,12 @@ package cn.icodeit.cartman.doc.view;
  * Created by lcf on 2014/11/26.
  */
 public class DocInfo {
-    String title;
-    String description;
-    String termsOfServiceUrl;
-    String contact;
-    String license;
-    String licenseUrl;
+    private String title = "";
+    private String description="";
+    private String termsOfServiceUrl="";
+    private String contact="";
+    private String license="";
+    private String licenseUrl="";
 
     public String getTitle() {
         return title;

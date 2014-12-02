@@ -98,7 +98,7 @@ public abstract class AbstractInteraction implements Interaction {
             if(i1==-1){
                   return substring.split("=")[1];
             }
-            String substring1 = substring.substring(i, i1);
+            String substring1 = body.substring(i, i1+i);
             return substring1.split("=")[1];
 
         }

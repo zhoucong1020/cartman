@@ -1,14 +1,19 @@
 package cn.icodeit.cartman.doc.view;
 
+import cn.icodeit.cartman.doc.parse.DocTypeFormatter;
+
+import java.awt.event.ItemEvent;
+
 /**
  * Created by lcf on 2014/11/26.
  */
 public class DocParam {
-    String name;
-    String description;
-    boolean required;
-    String type;
-    String paramType;
+    private  String name;
+    private String description;
+    private boolean required;
+    private String type;
+    private  String paramType;
+    private  DocItem items;
 
     public DocParam() {
     }
@@ -45,12 +50,21 @@ public class DocParam {
         this.type = type;
     }
 
+
     public String getParamType() {
         return paramType;
     }
 
     public void setParamType(String paramType) {
         this.paramType = paramType;
+    }
+
+    public DocItem getItems() {
+        return items;
+    }
+
+    public void setItems(DocItem items) {
+        this.items = items;
     }
 
     @Override

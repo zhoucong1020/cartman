@@ -38,11 +38,6 @@ public class DocScanner {
         return list;
     }
 
-    /**
-     * 当事人为二位
-     * @param file
-     * @return
-     */
     public static List<String> scanFile(File file) {
         List<String> list = new ArrayList<String>();
         if (file.isDirectory()) {

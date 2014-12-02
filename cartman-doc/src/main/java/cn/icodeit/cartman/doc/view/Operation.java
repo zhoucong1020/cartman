@@ -1,18 +1,19 @@
 package cn.icodeit.cartman.doc.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by lcf on 2014/11/26.
  */
 public class Operation {
-    String method;
-    String summary;
-    String notes;
-    String type;
-    String nickname ="";
-    List<DocParam> parameters;
-    List<DocResponseMessage> docResponseMessages;
+    private  String method ="";
+    private  String summary="";
+    private  String notes="";
+    private String type="";
+    private String nickname ="";
+    private  List<DocParam> parameters =new ArrayList<>();
+    private  List<DocResponseMessage> docResponseMessages = new ArrayList<>();
 
     public String getMethod() {
         return method;
