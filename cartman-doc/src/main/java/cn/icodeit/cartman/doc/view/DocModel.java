@@ -7,7 +7,7 @@ import java.util.Map;
  */
 public class DocModel {
     private  String id;
-    private  Map<String,DocProperty> properties;
+    private  Map<String,Object> properties;
 
     public String getId() {
         return id;
@@ -17,11 +17,11 @@ public class DocModel {
         this.id = id;
     }
 
-    public Map<String, DocProperty> getProperties() {
+    public Map<String, Object> getProperties() {
         return properties;
     }
 
-    public void setProperties(Map<String, DocProperty> properties) {
+    public void setProperties(Map<String, Object> properties) {
         this.properties = properties;
     }
 }

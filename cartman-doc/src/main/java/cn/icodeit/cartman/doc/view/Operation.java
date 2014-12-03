@@ -12,6 +12,7 @@ public class Operation {
     private  String notes="";
     private String type="";
     private String nickname ="";
+    private DocItem items;
     private  List<DocParam> parameters =new ArrayList<>();
     private  List<DocResponseMessage> docResponseMessages = new ArrayList<>();
 
@@ -69,6 +70,14 @@ public class Operation {
 
     public void setDocResponseMessages(List<DocResponseMessage> docResponseMessages) {
         this.docResponseMessages = docResponseMessages;
+    }
+
+    public DocItem getItems() {
+        return items;
+    }
+
+    public void setItems(DocItem items) {
+        this.items = items;
     }
 
     @Override

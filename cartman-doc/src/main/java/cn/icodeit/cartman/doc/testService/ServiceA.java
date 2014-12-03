@@ -5,7 +5,9 @@ import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.Param;
 import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
+import cn.icodeit.cartman.doc.view.DocInfo;
 import cn.icodeit.cartman.doc.view.DocItem;
+import cn.icodeit.cartman.doc.view.DocParam;
 import cn.icodeit.cartman.doc.view.Operation;
 
 import java.util.List;
@@ -57,19 +59,31 @@ public class ServiceA {
 //                + "     "+"c =" + c
 //                + "     "+"d =" + d;
 //    }
-    @Mapping(value = "operation", status = ResponseCode.success, method = MethodField.POST)
-    public Operation operation(Operation operation,List<Operation> ops){
+//    @Mapping(value = "operation", status = ResponseCode.success, method = MethodField.POST)
+//    public Operation operation(Operation operation,List<Operation> ops){
+//
+//        return operation;
+//    }
+//    @Mapping(value = "getOperation", status = ResponseCode.success, method = MethodField.POST)
+//    public Operation getOperation(Operation operation){
+//        System.out.println(operation);
+//        return operation;
+//    }
+//    @Mapping(value = "getDocItem", status = ResponseCode.success, method = MethodField.POST)
+//    public DocItem getDocItem(){
+//        DocItem docItem = new DocItem("ffff");
+//        return docItem;
+//    }
+//    @Mapping(value = "getDocItem", status = ResponseCode.success, method = MethodField.POST)
+//    public DocItem getOperation(DocItem docItem){
+//        return docItem;
+//    }
+//    @Mapping(value = "getDocInfo", status = ResponseCode.success, method = MethodField.POST)
+//    public DocInfo getDocInfo(DocInfo docInfo){
+//        return docInfo;
+//    }
+    public List<Operation> list(List<Operation> operations){
+        return operations;
+    }
 
-        return operation;
-    }
-    @Mapping(value = "getOperation", status = ResponseCode.success, method = MethodField.POST)
-    public Operation getOperation(Operation operation){
-        System.out.println(operation);
-        return operation;
-    }
-    @Mapping(value = "getDocItem", status = ResponseCode.success, method = MethodField.POST)
-    public DocItem getDocItem(){
-        DocItem docItem = new DocItem("ffff");
-        return docItem;
-    }
 }
