@@ -1,18 +1,20 @@
 package cn.icodeit.cartman.doc.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by lcf on 2014/11/26.
  */
 public class Operation {
-    String method;
-    String summary;
-    String notes;
-    String type;
-    String nickName;
-    List<DocParam> parameters;
-    List<DocResponseMessage> docResponseMessages;
+    private  String method ="";
+    private  String summary="";
+    private  String notes="";
+    private String type="";
+    private String nickname ="";
+    private DocItem items;
+    private  List<DocParam> parameters =new ArrayList<>();
+    private  List<DocResponseMessage> docResponseMessages = new ArrayList<>();
 
     public String getMethod() {
         return method;
@@ -46,12 +48,12 @@ public class Operation {
         this.type = type;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public List<DocParam> getParameters() {
@@ -70,6 +72,14 @@ public class Operation {
         this.docResponseMessages = docResponseMessages;
     }
 
+    public DocItem getItems() {
+        return items;
+    }
+
+    public void setItems(DocItem items) {
+        this.items = items;
+    }
+
     @Override
     public String toString() {
         return "Operation{" +
@@ -77,7 +87,7 @@ public class Operation {
                 ", summary='" + summary + '\'' +
                 ", notes='" + notes + '\'' +
                 ", type='" + type + '\'' +
-                ", nickName='" + nickName + '\'' +
+                ", nickname='" + nickname + '\'' +
                 ", parameters=" + parameters +
                 ", docResponseMessages=" + docResponseMessages +
                 '}';

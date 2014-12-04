@@ -4,8 +4,8 @@ package cn.icodeit.cartman.doc.view;
  * Created by lcf on 2014/11/26.
  */
 public class DocResponseMessage {
-    String message;
-    int code;
+    private String message;
+    private  int code;
 
     public String getMessage() {
         return message;

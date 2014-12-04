@@ -7,9 +7,9 @@ import java.util.List;
  * Created by lcf on 2014/11/26.
  */
 public class DocMapping {
-   String path;
-   List<Operation> operationses = new ArrayList<Operation>();
-   String description;
+    private  String path;
+    private  List<Operation> operations = new ArrayList<Operation>();
+    private  String description;
 
     public String getPath() {
         return path;
@@ -27,19 +27,19 @@ public class DocMapping {
         this.description = description;
     }
 
-    public List<Operation> getOperationses() {
-        return operationses;
+    public List<Operation> getOperations() {
+        return operations;
     }
 
-    public void setOperationses(List<Operation> operationses) {
-        this.operationses = operationses;
+    public void setOperations(List<Operation> operations) {
+        this.operations = operations;
     }
 
     @Override
     public String toString() {
         return "DocMapping{" +
                 "path='" + path + '\'' +
-                ", operationses=" + operationses +
+                ", operations=" + operations +
                 ", description='" + description + '\'' +
                 '}';
     }

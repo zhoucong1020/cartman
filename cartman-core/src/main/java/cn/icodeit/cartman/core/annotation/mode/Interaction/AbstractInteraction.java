@@ -85,13 +85,13 @@ public abstract class AbstractInteraction implements Interaction {
         if (methodField == MethodField.POST) {
             String body = request.body();
 
-            int i = body.indexOf(annotationName);
+            int i = body.indexOf(annotationName+"=");
             String substring = body.substring(i);
             int i1 = substring.indexOf("&");
             if (i1 == -1) {
                 return substring.split("=")[1];
             }
-            String substring1 = substring.substring(i, i1);
+            String substring1 = body.substring(i, i1+i);
             return substring1.split("=")[1];
 
         }

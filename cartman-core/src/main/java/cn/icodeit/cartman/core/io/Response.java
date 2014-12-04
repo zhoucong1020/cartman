@@ -5,6 +5,9 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 
 import java.nio.charset.Charset;
 
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
+
 /**
  * @author zhoucong
  */
@@ -42,6 +45,8 @@ public class Response {
         response.content().writeBytes(Charset.forName("UTF-8").encode(body));
         response.headers().add("Content-Length", response.content().readableBytes());
         response.headers().add("charset", "utf-8");
+        response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
+        response.headers().set(ACCESS_CONTROL_ALLOW_HEADERS,"content-type");
     }
 
     /**
