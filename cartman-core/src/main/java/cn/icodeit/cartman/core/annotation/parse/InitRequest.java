@@ -104,9 +104,6 @@ public class InitRequest {
                         );
 
                         String key = createKey(serviceNameCall, mappingName);
-                        if(key.startsWith("/")){
-                            key=key.substring(1);
-                        }
                         if (!isContainKey(key))
                             put(key, element);
 

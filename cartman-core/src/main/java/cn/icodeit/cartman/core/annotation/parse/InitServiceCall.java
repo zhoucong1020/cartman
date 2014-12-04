@@ -59,7 +59,7 @@ public class InitServiceCall {
     }
 
     public static String createKey(String serviceName, String mappingName) {
-        String fullKey = "/" + serviceName + "/" + mappingName;
+        String fullKey = serviceName + "/" + mappingName;
         return fullKey.trim();
     }
 

@@ -22,7 +22,7 @@ public abstract class AbstractInteraction implements Interaction {
     public String getRequestPrefix(Request request) {
         String uri = request.uri();
         String res = uri.split("\\?")[0];
-        return res.trim();
+        return res.trim().substring(1);
     }
 
     @Override
