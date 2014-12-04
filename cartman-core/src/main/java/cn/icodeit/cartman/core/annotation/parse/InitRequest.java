@@ -2,7 +2,7 @@ package cn.icodeit.cartman.core.annotation.parse;
 
 import cn.icodeit.cartman.core.annotation.Mapping;
 import cn.icodeit.cartman.core.annotation.Service;
-import cn.icodeit.cartman.core.annotation.mode.AbstractInteraction;
+import cn.icodeit.cartman.core.annotation.mode.Interaction.Interaction.AbstractInteraction;
 import cn.icodeit.cartman.core.annotation.mode.AccessElement;
 import cn.icodeit.cartman.core.annotation.mode.ParamElement;
 

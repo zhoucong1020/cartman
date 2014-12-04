@@ -1,7 +1,6 @@
 package cn.icodeit.cartman.doc.parse;
 
 
-import cn.icodeit.cartman.core.annotation.mode.AbstractInteraction;
 import cn.icodeit.cartman.core.annotation.parse.MethodInvoker;
 import cn.icodeit.cartman.core.io.Cartman;
 import cn.icodeit.cartman.doc.view.DocApi;
@@ -9,6 +8,8 @@ import cn.icodeit.cartman.doc.view.DocApi;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static cn.icodeit.cartman.core.annotation.parse.InitRequest.scanner;
 
 
 /**
@@ -50,7 +51,7 @@ public class DocScanner {
 
     public static void main(String[] args) {
 
-        AbstractInteraction.scanner("c" );
+        scanner("c");
         Cartman.addHandler("/", new MethodInvoker());
 
 

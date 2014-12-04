@@ -1,4 +1,4 @@
-package cn.icodeit.cartman.core.annotation.mode;
+package cn.icodeit.cartman.core.annotation.mode.Interaction;
 
 import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
@@ -17,4 +17,5 @@ public interface Interaction {
 
     String execute(Request request, Convert convert);
 
+    MethodField getRequestMethod(Request request);
 }

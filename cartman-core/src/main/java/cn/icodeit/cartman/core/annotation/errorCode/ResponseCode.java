@@ -1,19 +1,22 @@
 package cn.icodeit.cartman.core.annotation.errorCode;
 
+import cn.icodeit.cartman.core.annotation.parse.InitServiceCall;
+
 /**
  * .
  * User: yuanweifeng
- * Date: 14-11-19
- * Time: 下午3:13
+ * Date: 14-12-1
+ * Time: 下午5:11
  */
 public enum ResponseCode {
+    success,
+    NOT_FOUND_404,
+    PERMISSION_401,
+    INTERNAL_SERVER_ERROR_500;
 
-    success(200);
 
-    private int statusCode;
-
-    private ResponseCode(int statusCode) {
-        this.statusCode = statusCode;
+    public ResponseCode record(String msg) {
+        InitServiceCall.record(this,msg);
+        return this;
     }
-
 }

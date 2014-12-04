@@ -21,7 +21,7 @@ public @interface Mapping {
 
     MethodField method() default MethodField.POST;
 
-    ResponseCode status();
+    ResponseCode[] status();
 
     String description() default "";
 }

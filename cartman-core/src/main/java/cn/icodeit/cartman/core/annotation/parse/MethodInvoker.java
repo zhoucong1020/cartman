@@ -1,7 +1,7 @@
 package cn.icodeit.cartman.core.annotation.parse;
 
-import cn.icodeit.cartman.core.annotation.mode.AbstractInteraction;
-import cn.icodeit.cartman.core.annotation.mode.Interaction;
+import cn.icodeit.cartman.core.annotation.mode.Interaction.Interaction.AbstractInteraction;
+import cn.icodeit.cartman.core.annotation.mode.Interaction.Interaction;
 import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
 import cn.icodeit.cartman.core.annotation.mode.convert.JsonConvert;
 import cn.icodeit.cartman.core.io.Handler;

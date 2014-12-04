@@ -1,6 +1,8 @@
 package cn.icodeit.cartman.core.annotation.parse;
 
+import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
 import cn.icodeit.cartman.core.annotation.mode.AccessElement;
+import cn.icodeit.cartman.core.io.Response;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +21,15 @@ public class InitServiceCall {
 
     private static List<String> excludeKeys = new ArrayList<>();
 
+    private static Map<String,ResponseCode> responseCodeMap = new HashMap<>();
+
 
     public static void put(String key, AccessElement value) {
         requestLocation.put(key, value);
+    }
+
+    public static void record(ResponseCode code,String msg){
+        responseCodeMap.put(msg ,code);
     }
 
 
