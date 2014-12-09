@@ -5,10 +5,7 @@ import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.Param;
 import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
-import cn.icodeit.cartman.doc.view.DocInfo;
-import cn.icodeit.cartman.doc.view.DocItem;
-import cn.icodeit.cartman.doc.view.DocParam;
-import cn.icodeit.cartman.doc.view.Operation;
+import cn.icodeit.cartman.doc.view.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ import java.util.List;
  * Date: 14-11-26
  * Time: 上午10:51
  */
-@Service(value = "/s001")
+@Service(value = "mathA")
 public class ServiceA {
 //
 //    @Mapping(value = "getString", method = MethodField.GET, status = ResponseCode.success)
@@ -29,7 +26,8 @@ public class ServiceA {
 //    }
 //    @Mapping(value = "postString", method = MethodField.POST, status = ResponseCode.success)
 //    public String postString(
-//            @Param(value = "param", description = "")String abc
+//            @Param(value = "param", description = "")String abc,
+//          int a,int b
 //    ) {
 //        return "test method " + abc + " :";
 //    }
@@ -82,8 +80,35 @@ public class ServiceA {
 //    public DocInfo getDocInfo(DocInfo docInfo){
 //        return docInfo;
 //    }
-    public List<Operation> list(List<Operation> operations){
-        return operations;
+//    public List<Operation> list(List<Operation> operations){
+//        return operations;
+//    }
+      @Mapping(value = "max",method = MethodField.GET,status = ResponseCode.success)
+      public int max(int a,int b){
+          return Math.max(a,b);
+      }
+    @Mapping(value = "sum",method = MethodField.GET,status = ResponseCode.success)
+     public int sum(int a,int b){
+         return a+b;
+     }
+    @Mapping(value = "dive",method = MethodField.GET,status = ResponseCode.success)
+    public double dive(double a,double b){
+        return  a/b;
+    }
+    @Mapping(value = "test",method = MethodField.GET,status = ResponseCode.success)
+    public double test(double a,double b){
+        return  a/b;
     }
 
+    public DocInfo docInfo(DocInfo docInfo){
+        return docInfo;
+    }
+
+    public String testChinese(String str){
+        return  str;
+    }
+    @Mapping(value = "testChinese",method = MethodField.GET,status = ResponseCode.success)
+    public String testChineseGet(String str){
+        return  str;
+    }
 }
