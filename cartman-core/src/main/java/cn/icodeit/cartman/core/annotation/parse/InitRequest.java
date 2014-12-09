@@ -24,23 +24,27 @@ public class InitRequest {
             .getResource("")
             .getPath();
 
-    private static String packageName = "";
-
-
     public static void scanner(String annotationPackage) {
 
-        packageName = annotationPackage;
-        File file = new File(PROJECT_PATH + packageName.replace(".", "/"));
+        File file = new File(PROJECT_PATH + annotationPackage.replace(".", "/"));
         if (!file.isDirectory()) {
             throw new IllegalArgumentException
                     ("service package name error, it is a file not a folder!");
 
         }
-        scanService(file);
+        scanService(file,annotationPackage);
     }
 
-    private static void scanService(File file) {
+    private static void scanService(File file,String packageName) {
         Arrays.asList(file.list()).forEach(e -> {
+           if(!e.endsWith(".class")){
+               File file1 = new File(PROJECT_PATH+packageName.replace(".","/")+"/"+e);
+               if(file1.isDirectory()){
+                   scanner(packageName+"."+e);
+               }
+
+           }else {
+
             Class aClass = null;
             try {
                 aClass = Class.forName(packageName + "." + e.replace(".class", ""));
@@ -108,8 +112,8 @@ public class InitRequest {
 
                     }
             );
+           }
         }
-
         );
 
 
