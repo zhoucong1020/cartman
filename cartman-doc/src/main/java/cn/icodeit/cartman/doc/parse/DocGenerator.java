@@ -58,7 +58,9 @@ public class DocGenerator {
             String name = clazz.getSimpleName();
             docService.setPath("/" + name.substring(0, 1).toLowerCase() + name.substring(1));
         } else {
-            docService.setPath(service.value());
+            String path = service.value();
+            path = path.startsWith("/") ? path : "/"+ path;
+            docService.setPath(path);
         }
         docService.setDescription(service.description());
         Arrays.asList(clazz.getDeclaredMethods()).forEach(method -> {
