@@ -2,10 +2,9 @@ package cn.icodeit.cartman.doc.testService;
 
 import cn.icodeit.cartman.core.annotation.Mapping;
 import cn.icodeit.cartman.core.annotation.MethodField;
-import cn.icodeit.cartman.core.annotation.Param;
 import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
-import cn.icodeit.cartman.doc.view.*;
+import cn.icodeit.cartman.doc.view.Operation;
 
 import java.util.List;
 
@@ -15,8 +14,8 @@ import java.util.List;
  * Date: 14-11-26
  * Time: 上午10:51
  */
-@Service(value = "mathA")
-public class ServiceA {
+@Service(value = "mathB")
+public class ServiceB {
 //
 //    @Mapping(value = "getString", method = MethodField.GET, status = ResponseCode.success)
 //    public String getString(
@@ -43,13 +42,13 @@ public class ServiceA {
 //    public String getNoParameter() {
 //        return "test method getNoParameter";
 //    }
-//    @Mapping(value = "getParam", status = ResponseCode.success, method = MethodField.GET)
-//    public String getParam(int a,boolean b,Integer c,char d) {
-//        return "test method getParam a = " +a
-//                + "     "+"b =" + b
-//                + "     "+"c =" + c
-//                + "     "+"d =" + d;
-//    }
+    @Mapping(value = "getParam", status = ResponseCode.success, method = MethodField.GET)
+    public String getParam(int a,boolean b,Integer c,char d) {
+        return "test method getParam a = " +a
+                + "     "+"b =" + b
+                + "     "+"c =" + c
+                + "     "+"d =" + d;
+    }
 //    @Mapping(value = "getParam2", status = ResponseCode.success, method = MethodField.GET)
 //    public String getParam2(Integer a,Boolean b,Integer c,Character d) {
 //        return "test method getParam a = " +a
@@ -62,11 +61,11 @@ public class ServiceA {
 //
 //        return operation;
 //    }
-//    @Mapping(value = "getOperation", status = ResponseCode.success, method = MethodField.POST)
-//    public Operation getOperation(Operation operation){
-//        System.out.println(operation);
-//        return operation;
-//    }
+    @Mapping(value = "getOperation", status = ResponseCode.success, method = MethodField.POST)
+    public Operation getOperation(Operation operation){
+        System.out.println(operation);
+        return operation;
+    }
 //    @Mapping(value = "getDocItem", status = ResponseCode.success, method = MethodField.POST)
 //    public DocItem getDocItem(){
 //        DocItem docItem = new DocItem("ffff");
@@ -80,35 +79,24 @@ public class ServiceA {
 //    public DocInfo getDocInfo(DocInfo docInfo){
 //        return docInfo;
 //    }
-//    public List<Operation> list(List<Operation> operations){
-//        return operations;
-//    }
-      @Mapping(value = "max",method = MethodField.GET,status = ResponseCode.success)
+
+    public List<Operation> list(List<Operation> operations){
+        return operations;
+    }
+      @Mapping(value = "max",method = MethodField.POST,status = ResponseCode.success)
       public int max(int a,int b){
           return Math.max(a,b);
       }
-    @Mapping(value = "sum",method = MethodField.GET,status = ResponseCode.success)
+    @Mapping(value = "sum",method = MethodField.POST,status = ResponseCode.success)
      public int sum(int a,int b){
          return a+b;
      }
-    @Mapping(value = "dive",method = MethodField.GET,status = ResponseCode.success)
+    @Mapping(value = "dive",method = MethodField.POST,status = ResponseCode.success)
     public double dive(double a,double b){
         return  a/b;
     }
-    @Mapping(value = "test",method = MethodField.GET,status = ResponseCode.success)
+    @Mapping(value = "test",method = MethodField.POST,status = ResponseCode.success)
     public double test(double a,double b){
         return  a/b;
-    }
-
-    public DocInfo docInfo(DocInfo docInfo){
-        return docInfo;
-    }
-
-    public String testChinese(String str){
-        return  str;
-    }
-    @Mapping(value = "testChineseGet",method = MethodField.GET,status = ResponseCode.success)
-    public String testChineseGet(String str){
-        return  str;
     }
 }

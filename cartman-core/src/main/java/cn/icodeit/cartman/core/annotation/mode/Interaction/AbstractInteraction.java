@@ -5,6 +5,8 @@ import cn.icodeit.cartman.core.annotation.mode.AccessElement;
 import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
 import cn.icodeit.cartman.core.io.Request;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,12 @@ public abstract class AbstractInteraction implements Interaction {
             // if (!e.isRequired() && attribute == null) {
             //   attribute="";
             //}
+            try {
+                attribute = URLDecoder.decode(attribute,"UTF-8");
+                System.out.println(attribute);
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+            }
             result.add(convert.convert(attribute, e.getClassType()));
 
         });
@@ -85,13 +93,13 @@ public abstract class AbstractInteraction implements Interaction {
         if (methodField == MethodField.POST) {
             String body = request.body();
 
-            int i = body.indexOf(annotationName+"=");
+            int i = body.indexOf(annotationName + "=");
             String substring = body.substring(i);
             int i1 = substring.indexOf("&");
             if (i1 == -1) {
                 return substring.split("=")[1];
             }
-            String substring1 = body.substring(i, i1+i);
+            String substring1 = body.substring(i, i1 + i);
             return substring1.split("=")[1];
 
         }
