@@ -1,14 +1,12 @@
 package cn.icodeit.cartman.doc.parse;
 
 import cn.icodeit.cartman.core.annotation.mode.convert.JsonConvert;
-import cn.icodeit.cartman.doc.testService.ServiceA;
+import cn.icodeit.cartman.doc.testService.ServiceB;
 import cn.icodeit.cartman.doc.view.DocItem;
-import cn.icodeit.cartman.doc.view.DocProperty;
 import cn.icodeit.cartman.doc.view.Operation;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -45,7 +43,7 @@ public class DocModelTest {
 
     @Test
     public void testMethod() throws NoSuchMethodException {
-        Method method = ServiceA.class.getMethod("list", List.class);
+        Method method = ServiceB.class.getMethod("list", List.class);
         System.out.println(method.getGenericReturnType().getTypeName());
         Type returnType = method.getGenericReturnType();
         if (returnType instanceof ParameterizedType)/**//* 如果是泛型类型 */ {

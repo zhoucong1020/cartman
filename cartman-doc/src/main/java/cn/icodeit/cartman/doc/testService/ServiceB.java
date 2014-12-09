@@ -4,6 +4,7 @@ import cn.icodeit.cartman.core.annotation.Mapping;
 import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
+import cn.icodeit.cartman.doc.view.DocInfo;
 import cn.icodeit.cartman.doc.view.Operation;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Service(value = "mathB")
 public class ServiceB {
-//
+    //
 //    @Mapping(value = "getString", method = MethodField.GET, status = ResponseCode.success)
 //    public String getString(
 //            @Param(value = "param", description = "")String abc
@@ -43,13 +44,14 @@ public class ServiceB {
 //        return "test method getNoParameter";
 //    }
     @Mapping(value = "getParam", status = ResponseCode.success, method = MethodField.GET)
-    public String getParam(int a,boolean b,Integer c,char d) {
-        return "test method getParam a = " +a
-                + "     "+"b =" + b
-                + "     "+"c =" + c
-                + "     "+"d =" + d;
+    public String getParam(int a, boolean b, Integer c, char d) {
+        return "test method getParam a = " + a
+                + "     " + "b =" + b
+                + "     " + "c =" + c
+                + "     " + "d =" + d;
     }
-//    @Mapping(value = "getParam2", status = ResponseCode.success, method = MethodField.GET)
+
+    //    @Mapping(value = "getParam2", status = ResponseCode.success, method = MethodField.GET)
 //    public String getParam2(Integer a,Boolean b,Integer c,Character d) {
 //        return "test method getParam a = " +a
 //                + "     "+"b =" + b
@@ -62,7 +64,7 @@ public class ServiceB {
 //        return operation;
 //    }
     @Mapping(value = "getOperation", status = ResponseCode.success, method = MethodField.POST)
-    public Operation getOperation(Operation operation){
+    public Operation getOperation(Operation operation) {
         System.out.println(operation);
         return operation;
     }
@@ -80,23 +82,40 @@ public class ServiceB {
 //        return docInfo;
 //    }
 
-    public List<Operation> list(List<Operation> operations){
+    public List<Operation> list(List<Operation> operations) {
         return operations;
     }
-      @Mapping(value = "max",method = MethodField.POST,status = ResponseCode.success)
-      public int max(int a,int b){
-          return Math.max(a,b);
-      }
-    @Mapping(value = "sum",method = MethodField.POST,status = ResponseCode.success)
-     public int sum(int a,int b){
-         return a+b;
-     }
-    @Mapping(value = "dive",method = MethodField.POST,status = ResponseCode.success)
-    public double dive(double a,double b){
-        return  a/b;
+
+    @Mapping(value = "max", method = MethodField.POST, status = ResponseCode.success)
+    public int max(int a, int b) {
+        return Math.max(a, b);
     }
-    @Mapping(value = "test",method = MethodField.POST,status = ResponseCode.success)
-    public double test(double a,double b){
-        return  a/b;
+
+    @Mapping(value = "sum", method = MethodField.POST, status = ResponseCode.success)
+    public int sum(int a, int b) {
+        return a + b;
+    }
+
+    @Mapping(value = "dive", method = MethodField.POST, status = ResponseCode.success)
+    public double dive(double a, double b) {
+        return a / b;
+    }
+
+    @Mapping(value = "test", method = MethodField.POST, status = ResponseCode.success)
+    public double test(double a, double b) {
+        return a / b;
+    }
+
+    public DocInfo docInfo(DocInfo docInfo) {
+        return docInfo;
+    }
+
+    public String testChinese(String str) {
+        return str;
+    }
+
+    @Mapping(value = "testChinese", method = MethodField.GET, status = ResponseCode.success)
+    public String testChineseGet(String str) {
+        return str;
     }
 }

@@ -7,6 +7,7 @@ import cn.icodeit.cartman.core.annotation.mode.Interaction.requestMethod.Request
 import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
 import cn.icodeit.cartman.core.io.Request;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public abstract class AbstractInteraction implements Interaction {
         element.getParams().forEach(e -> {
 
             String attribute = requestMethod.getAttribute(e.getAnnotationName(), request, e.isRequired());
+            attribute = URLDecoder.decode(attribute);
             result.add(convert.convert(attribute, e.getClassType()));
 
         });
