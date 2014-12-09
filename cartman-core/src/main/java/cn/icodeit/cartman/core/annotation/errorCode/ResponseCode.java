@@ -10,13 +10,13 @@ import cn.icodeit.cartman.core.annotation.parse.InitServiceCall;
  */
 public enum ResponseCode {
     success,
-    NOT_FOUND_404,
+    NOT_FOUND,
     PERMISSION_401,
     INTERNAL_SERVER_ERROR_500;
 
 
     public ResponseCode record(String msg) {
-        InitServiceCall.record(this,msg);
+        InitServiceCall.record(this, msg);
         return this;
     }
 }

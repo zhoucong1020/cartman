@@ -50,4 +50,36 @@ public class AccessElement {
         params.add(paramElement);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AccessElement element = (AccessElement) o;
+
+        if (clazz != null ? !clazz.equals(element.clazz) : element.clazz != null) return false;
+        if (method != null ? !method.equals(element.method) : element.method != null) return false;
+        if (params != null ? !params.equals(element.params) : element.params != null) return false;
+        if (requestMethod != element.requestMethod) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = clazz != null ? clazz.hashCode() : 0;
+        result = 31 * result + (method != null ? method.hashCode() : 0);
+        result = 31 * result + (requestMethod != null ? requestMethod.hashCode() : 0);
+        result = 31 * result + (params != null ? params.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "AccessElement{" +
+                "clazz=" + clazz.getSimpleName() +
+                ", method=" + method.getName() +
+                ", params=" + params +
+                '}';
+    }
 }

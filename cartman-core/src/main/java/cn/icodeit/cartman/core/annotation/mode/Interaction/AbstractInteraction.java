@@ -2,6 +2,8 @@ package cn.icodeit.cartman.core.annotation.mode.Interaction;
 
 import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.mode.AccessElement;
+import cn.icodeit.cartman.core.annotation.mode.Interaction.requestMethod.RequestCreator;
+import cn.icodeit.cartman.core.annotation.mode.Interaction.requestMethod.RequestMethod;
 import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
 import cn.icodeit.cartman.core.io.Request;
 
@@ -28,7 +30,7 @@ public abstract class AbstractInteraction implements Interaction {
     @Override
     public String execute(Request request, Convert convert) {
         try {
-            AccessElement element = get(getRequestPrefix(request));
+            AccessElement element = get(getRequestPrefix(request),getRequestMethod(request));
             Object ret = Location.invoker(element, getParams(request, convert).toArray());
 
             return convert.stringConvert(ret);
@@ -48,18 +50,11 @@ public abstract class AbstractInteraction implements Interaction {
 
     private List getParams(Request request, Convert convert) {
         List result = new ArrayList();
-        AccessElement element = get(getRequestPrefix(request));
-        checkRequestMethod(request, element);
+        AccessElement element = get(getRequestPrefix(request),getRequestMethod(request));
+        RequestMethod requestMethod = checkRequestMethod(request, element);
         element.getParams().forEach(e -> {
 
-            String attribute = getAttribute(request, e.getAnnotationName(), element.getRequestMethod());
-            if (e.isRequired() && attribute == null) {
-                throw new IllegalArgumentException
-                        ("request parameters less than expected " + e.getAnnotationName());
-            }
-            // if (!e.isRequired() && attribute == null) {
-            //   attribute="";
-            //}
+            String attribute = requestMethod.getAttribute(e.getAnnotationName(), request, e.isRequired());
             result.add(convert.convert(attribute, e.getClassType()));
 
         });
@@ -69,34 +64,14 @@ public abstract class AbstractInteraction implements Interaction {
 
     }
 
-    private void checkRequestMethod(Request request, AccessElement element) {
+    private RequestMethod checkRequestMethod(Request request, AccessElement element) {
         if (getRequestMethod(request) != element.getRequestMethod()) {
             throw new IllegalArgumentException("un correct request method ,"
                     + "request is " + getRequestMethod(request)
                     + " should be " + element.getRequestMethod());
         }
+        return RequestCreator.create(element.getRequestMethod());
 
     }
-
-    private String getAttribute(Request request, String annotationName, MethodField methodField) {
-        if (methodField == MethodField.GET) {
-            return request.attribute(annotationName);
-        }
-        if (methodField == MethodField.POST) {
-            String body = request.body();
-
-            int i = body.indexOf(annotationName+"=");
-            String substring = body.substring(i);
-            int i1 = substring.indexOf("&");
-            if (i1 == -1) {
-                return substring.split("=")[1];
-            }
-            String substring1 = body.substring(i, i1+i);
-            return substring1.split("=")[1];
-
-        }
-        throw new IllegalArgumentException("un handler request method ");
-    }
-
 
 }

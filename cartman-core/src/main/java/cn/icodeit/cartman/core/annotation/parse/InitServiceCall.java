@@ -1,8 +1,8 @@
 package cn.icodeit.cartman.core.annotation.parse;
 
+import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
 import cn.icodeit.cartman.core.annotation.mode.AccessElement;
-import cn.icodeit.cartman.core.io.Response;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,19 +17,37 @@ import java.util.Map;
  */
 public class InitServiceCall {
 
-    public static Map<String, AccessElement> requestLocation = new HashMap<>();
+    public static Map<String, List<AccessElement>> requestLocation = new HashMap<>();
 
     private static List<String> excludeKeys = new ArrayList<>();
 
-    private static Map<String,ResponseCode> responseCodeMap = new HashMap<>();
+    private static Map<String, ResponseCode> responseCodeMap = new HashMap<>();
 
 
     public static void put(String key, AccessElement value) {
-        requestLocation.put(key, value);
+        List<AccessElement> elements = requestLocation.get(key);
+        if(elements==null){
+            elements = new ArrayList<>(4);
+            elements.add(value);
+            requestLocation.put(key,elements);
+            return;
+        }
+        if(!elements.contains(value)){
+            elements.forEach(e->{
+                if(e.getRequestMethod().equals(value.getRequestMethod()))
+                    throw new IllegalArgumentException
+                            (" init request :" + key + " method: "+value+ " error! " +
+                            value.getRequestMethod() +" has already defined !");
+            });
+            elements.add(value);
+        }
     }
 
-    public static void record(ResponseCode code,String msg){
-        responseCodeMap.put(msg ,code);
+    public static void record(ResponseCode code, String msg) {
+        if (!responseCodeMap.containsKey(msg)) {
+            responseCodeMap.put(msg, code);
+            writeWorkError();
+        }
     }
 
 
@@ -49,12 +67,19 @@ public class InitServiceCall {
         }
     }
 
-    public static AccessElement get(String key)
+    public static AccessElement get(String key,MethodField field)
             throws IllegalAccessError, IllegalArgumentException {
         excludeRequestCheck(key);
         unDefineRequestCheck(key);
 
-        return requestLocation.get(key);
+        List<AccessElement> elements = requestLocation.get(key);
+        for(AccessElement e: elements){
+            if(e.getRequestMethod().equals(field)){
+                return e;
+            }
+        }
+        throw new IllegalArgumentException(" request :" + key + " unDefine method: "+ field);
+
 
     }
 
@@ -71,6 +96,14 @@ public class InitServiceCall {
 
     public static boolean isExcludeKey(String key) {
         return excludeKeys.contains(key);
+    }
+
+    public static void writeWorkError() {
+        responseCodeMap.entrySet().forEach(e -> {
+            String key = e.getKey();
+            ResponseCode value = e.getValue();
+            System.out.println("key: " + key + " valueCode: " + value);
+        });
     }
 
 }

@@ -9,9 +9,7 @@ import cn.icodeit.cartman.core.annotation.mode.ParamElement;
 import java.io.File;
 import java.util.Arrays;
 
-import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.createKey;
-import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.isContainKey;
-import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.put;
+import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.*;
 
 /**
  * .
@@ -67,7 +65,7 @@ public class InitRequest {
 
                         AccessElement element = new AccessElement(classEl, m);
 
-                        if(service!=null){
+                        if (service != null) {
                             element.setRequestMethod(service.method());
                         }
 
@@ -104,8 +102,8 @@ public class InitRequest {
                         );
 
                         String key = createKey(serviceNameCall, mappingName);
-                        if (!isContainKey(key))
-                            put(key, element);
+
+                        put(key, element);
 
 
                     }
