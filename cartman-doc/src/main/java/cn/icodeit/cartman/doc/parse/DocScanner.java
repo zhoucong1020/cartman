@@ -3,6 +3,7 @@ package cn.icodeit.cartman.doc.parse;
 
 import cn.icodeit.cartman.core.annotation.parse.MethodInvoker;
 import cn.icodeit.cartman.core.io.Cartman;
+import cn.icodeit.cartman.doc.provider.DocServiceProvider;
 import cn.icodeit.cartman.doc.view.DocApi;
 
 import java.io.File;
@@ -51,14 +52,8 @@ public class DocScanner {
 
     public static void main(String[] args) {
 
-        scanner("c");
+        scanner("cn.icodeit.cartman.doc.testService");
         Cartman.addHandler("/", new MethodInvoker());
-
-
-        DocApi docApi = DocGenerator.generateDocApi(DocScanner.scan("cn.icodeit.cartman.core.boot", ""));
-        DocGenerator.modelNames.stream().forEach(s -> {
-            System.out.println(s);
-        });
-        System.out.println(docApi);
+        DocServiceProvider.init();
     }
 }

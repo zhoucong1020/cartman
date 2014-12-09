@@ -19,17 +19,18 @@ public class DocGenerator {
      * @param map 扫描{@link cn.icodeit.cartman.core.annotation.Service}的结果{@link cn.icodeit.cartman.core.annotation.parse.InitServiceCall}
      * @return DocApi 生成的文档对象
      */
-    public static DocApi generateDocApi(Map<String, AccessElement> map) {
+    public static DocApi generateDocApi(Map<String,List<AccessElement>> map) {
         DocApi docApi = new DocApi();
         List<DocService> docServices = docApi.getApis();
         Set<Class> classes = new HashSet<>();
-        map.forEach((str, ele) -> {
-            classes.add(ele.getClazz());
+        map.forEach((str, list) -> {
+            list.forEach(ele -> {
+                    classes.add(ele.getClazz());
+            });
         });
         classes.forEach(clazz -> {
             docServices.add(DocGenerator.generateDocService(clazz));
         });
-
         return docApi;
     }
 
@@ -58,7 +59,9 @@ public class DocGenerator {
             String name = clazz.getSimpleName();
             docService.setPath("/" + name.substring(0, 1).toLowerCase() + name.substring(1));
         } else {
-            docService.setPath(service.value());
+            String path = service.value();
+            path = path.startsWith("/") ? path : "/"+ path;
+            docService.setPath(path);
         }
         docService.setDescription(service.description());
         Arrays.asList(clazz.getDeclaredMethods()).forEach(method -> {

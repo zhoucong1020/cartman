@@ -18,7 +18,7 @@ public class DocServiceProvider {
     public  DocServiceProvider() {
     }
     public  static void init(){
-       // docApi =DocGenerator.generateDocApi(InitServiceCall.requestLocation);
+       docApi =DocGenerator.generateDocApi(InitServiceCall.requestLocation);
 //        docApi = DocGenerator.generateDocApi(DocScanner.scan("cn.icodeit.cartman", ""));
         Cartman.addHandler("/doc.json", new DocHandler<DocApi>(docApi));
         docApi.getApis().forEach(docService ->{
