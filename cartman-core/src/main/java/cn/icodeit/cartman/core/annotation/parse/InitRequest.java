@@ -3,13 +3,19 @@ package cn.icodeit.cartman.core.annotation.parse;
 import cn.icodeit.cartman.core.annotation.Mapping;
 import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.mode.AccessElement;
-import cn.icodeit.cartman.core.annotation.mode.Interaction.AbstractInteraction;
 import cn.icodeit.cartman.core.annotation.mode.ParamElement;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.Arrays;
+import java.util.Enumeration;
 
-import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.*;
+import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.createKey;
+import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.put;
 
 /**
  * .
@@ -19,104 +25,91 @@ import static cn.icodeit.cartman.core.annotation.parse.InitServiceCall.*;
  */
 public class InitRequest {
 
-    private static final String PROJECT_PATH = AbstractInteraction.class
-            .getClassLoader()
-            .getResource("")
-            .getPath();
+    public static void scanner(String packageName) {
+        String packagePath = packageName.replace(".", "/");
 
-    public static void scanner(String annotationPackage) {
-
-        File file = new File(PROJECT_PATH + annotationPackage.replace(".", "/"));
-        if (!file.isDirectory()) {
-            throw new IllegalArgumentException
-                    ("service package name error, it is a file not a folder!");
-
+        try {
+            Enumeration<URL> dirs = Thread.currentThread().getContextClassLoader().getResources(packagePath);
+            while (dirs.hasMoreElements()) {
+                URL url = dirs.nextElement();
+                if (url.getProtocol().equals("file")) {
+                    String filePath = URLDecoder.decode(url.getFile(), "UTF-8");
+                    scanPath(filePath, packageName);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        scanService(file,annotationPackage);
     }
 
-    private static void scanService(File file,String packageName) {
-        Arrays.asList(file.list()).forEach(e -> {
-           if(!e.endsWith(".class")){
-               File file1 = new File(PROJECT_PATH+packageName.replace(".","/")+"/"+e);
-               if(file1.isDirectory()){
-                   scanner(packageName+"."+e);
-               }
+    private static void scanPath(String filePath, String packageName) {
+        File path = new File(filePath);
+        if (!path.exists()) {
+            return;
+        }
 
-           }else {
-
-            Class aClass = null;
-            try {
-                aClass = Class.forName(packageName + "." + e.replace(".class", ""));
-            } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
-            }
-
-            Service service = (Service) aClass.getAnnotation(Service.class);
-
-            String serviceName = null;
-            if (service == null) {
-                serviceName = aClass.getSimpleName();
+        File[] files = path.listFiles(e -> e.isDirectory() || e.getName().endsWith(".class"));
+        for (File file : files) {
+            if (file.isDirectory()) {
+                scanPath(filePath + "/" + file.getName(), packageName + "." + file.getName());
             } else {
-                serviceName = service.value();
-
+                Class<?> clazz = getClass(packageName + "." + file.getName().substring(0, file.getName().length() - 6));
+                if (clazz != null) {
+                    mapClass(clazz);
+                }
             }
-            Class classEl = aClass;
-            String serviceNameCall = serviceName;
-            Arrays.asList(aClass.getDeclaredMethods()).forEach(m ->
-                    {
-                        Mapping mapping = m.getAnnotation(Mapping.class);
-
-                        AccessElement element = new AccessElement(classEl, m);
-
-                        if (service != null) {
-                            element.setRequestMethod(service.method());
-                        }
-
-                        String mappingName = null;
-                        if (mapping == null) {
-                            mappingName = m.getName();
-                        } else {
-                            mappingName = mapping.value();
-                            element.setRequestMethod(mapping.method());
-                        }
-
-                        Arrays.asList(m.getParameters()).forEach(p ->
-
-                                {
-                                    cn.icodeit.cartman.core.annotation.Param param =
-                                            p.getAnnotation(cn.icodeit.cartman.core.annotation.Param.class);
-
-
-                                    String paramName = null;
-                                    boolean required = true;
-                                    if (param == null) {
-                                        paramName = p.getName();
-
-                                    } else {
-                                        paramName = param.value();
-                                        required = param.required();
-                                    }
-                                    ParamElement paramElement = new ParamElement(paramName, p.getType(), required);
-                                    element.addParam(paramElement);
-
-
-                                }
-
-                        );
-
-                        String key = createKey(serviceNameCall, mappingName);
-
-                        put(key, element);
-
-
-                    }
-            );
-           }
         }
-        );
-
-
     }
 
+    private static Class<?> getClass(String className) {
+        try {
+            return Thread.currentThread().getContextClassLoader().loadClass(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static void mapClass(Class<?> clazz) {
+        Service service = clazz.getAnnotation(Service.class);
+
+        String serviceName = service == null ? clazz.getSimpleName() : service.value();
+
+        for (Method method : clazz.getDeclaredMethods()) {
+            Mapping mapping = method.getAnnotation(Mapping.class);
+
+            AccessElement element = new AccessElement(clazz, method);
+            if (service != null) {
+                element.setRequestMethod(service.method());
+            }
+
+            String mappingName;
+            if (mapping == null) {
+                mappingName = method.getName();
+            } else {
+                mappingName = mapping.value();
+                element.setRequestMethod(mapping.method());
+            }
+
+            for (Parameter parameter : method.getParameters()) {
+                cn.icodeit.cartman.core.annotation.Param param =
+                        parameter.getAnnotation(cn.icodeit.cartman.core.annotation.Param.class);
+
+                String paramName;
+                boolean required = true;
+                if (param == null) {
+                    paramName = parameter.getName();
+                } else {
+                    paramName = param.value();
+                    required = param.required();
+                }
+                ParamElement paramElement = new ParamElement(paramName, parameter.getType(), required);
+                element.addParam(paramElement);
+            }
+
+            String key = createKey(serviceName, mappingName);
+            put(key, element);
+        }
+    }
 }
