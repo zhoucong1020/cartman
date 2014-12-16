@@ -5,6 +5,7 @@ package cn.icodeit.cartman.core.io.server;
  * @since 0.0.1
  */
 public class ServerContext {
+
     private static boolean _ssl = false;
     private static int _port = 8080;
 

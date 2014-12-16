@@ -1,11 +1,10 @@
 package cn.icodeit.cartman.core.boot.testService;
 
-import cn.icodeit.cartman.core.annotation.Mapping;
-import cn.icodeit.cartman.core.annotation.MethodField;
 import cn.icodeit.cartman.core.annotation.Param;
-import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
-
+import cn.icodeit.cartman.core.service.annotation.RequestMethod;
+import cn.icodeit.cartman.core.service.annotation.Service;
+import cn.icodeit.cartman.core.service.annotation.ServiceMethod;
 
 /**
  * .
@@ -16,7 +15,7 @@ import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
 @Service(value = "s001")
 public class ServiceA {
 
-    @Mapping(value = "aa",method = MethodField.GET, status = ResponseCode.success)
+    @ServiceMethod(value = "aa",method = RequestMethod.GET, status = ResponseCode.success)
     public String test(
             @Param(value = "$xyz", description = "",required = false)
             String abc ,
@@ -28,7 +27,7 @@ public class ServiceA {
     }
 
 
-    @Mapping(value = "ss", status = ResponseCode.success)
+    @ServiceMethod(value = "ss", status = ResponseCode.success)
     public String test(
 
     ) {

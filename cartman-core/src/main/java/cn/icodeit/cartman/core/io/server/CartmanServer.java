@@ -23,8 +23,9 @@ import static cn.icodeit.cartman.core.io.server.ServerContext.ssl;
  */
 public class CartmanServer {
     public void start() throws CertificateException, SSLException {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> System.out.println("shutdown")));
-        System.out.println("start");
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+
+        }));
 
         // Configure SSL.
         final SslContext sslCtx;

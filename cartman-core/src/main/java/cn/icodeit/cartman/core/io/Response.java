@@ -42,17 +42,14 @@ public class Response {
      */
     public void body(String body) {
         this.body = body;
-        response.content().writeBytes(Charset.forName("UTF-8").encode(body));
-        response.headers().add("Content-Length", response.content().readableBytes());
-        response.headers().add("charset", "utf-8");
-        response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
-        response.headers().set(ACCESS_CONTROL_ALLOW_HEADERS,"content-type");
-    }
-
-    /**
-     * @return body
-     */
-    public String body() {
-        return this.body;
+        try {
+            response.content().writeBytes(Charset.forName("UTF-8").encode(body));
+            response.headers().add("Content-Length", response.content().readableBytes());
+            response.headers().add("charset", "utf-8");
+            response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
+            response.headers().set(ACCESS_CONTROL_ALLOW_HEADERS,"content-type");
+        } catch (Exception exp) {
+            exp.printStackTrace();
+        }
     }
 }
