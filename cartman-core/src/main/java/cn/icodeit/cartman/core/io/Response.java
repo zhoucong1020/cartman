@@ -16,11 +16,12 @@ public class Response {
     private FullHttpResponse response;
     private String body;
 
-    protected Response() {
-    }
-
     public Response(FullHttpResponse response) {
         this.response = response;
+    }
+
+    public FullHttpResponse response() {
+        return response;
     }
 
     /**
@@ -46,8 +47,8 @@ public class Response {
             response.content().writeBytes(Charset.forName("UTF-8").encode(body));
             response.headers().add("Content-Length", response.content().readableBytes());
             response.headers().add("charset", "utf-8");
-            response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN,"*");
-            response.headers().set(ACCESS_CONTROL_ALLOW_HEADERS,"content-type");
+            response.headers().set(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+            response.headers().set(ACCESS_CONTROL_ALLOW_HEADERS, "content-type");
         } catch (Exception exp) {
             exp.printStackTrace();
         }

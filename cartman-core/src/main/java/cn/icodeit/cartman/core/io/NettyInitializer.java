@@ -1,5 +1,6 @@
-package cn.icodeit.cartman.core.io.server;
+package cn.icodeit.cartman.core.io;
 
+import cn.icodeit.cartman.core.io.server.CartmanActionHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -11,13 +12,12 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
  * @author zhoucong
- * @since 0.0.1
  */
-public class CartmanServerInitializer extends ChannelInitializer<SocketChannel> {
+public class NettyInitializer extends ChannelInitializer<SocketChannel> {
 
     private final SslContext sslCtx;
 
-    public CartmanServerInitializer(SslContext sslCtx) {
+    public NettyInitializer(SslContext sslCtx) {
         this.sslCtx = sslCtx;
     }
 

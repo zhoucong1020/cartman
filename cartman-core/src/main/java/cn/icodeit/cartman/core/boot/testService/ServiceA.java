@@ -1,10 +1,6 @@
 package cn.icodeit.cartman.core.boot.testService;
 
-import cn.icodeit.cartman.core.annotation.Param;
-import cn.icodeit.cartman.core.annotation.errorCode.ResponseCode;
-import cn.icodeit.cartman.core.service.annotation.RequestMethod;
-import cn.icodeit.cartman.core.service.annotation.Service;
-import cn.icodeit.cartman.core.service.annotation.ServiceMethod;
+import cn.icodeit.cartman.core.service.annotation.*;
 
 /**
  * .
@@ -15,14 +11,14 @@ import cn.icodeit.cartman.core.service.annotation.ServiceMethod;
 @Service(value = "s001")
 public class ServiceA {
 
-    @ServiceMethod(value = "aa",method = RequestMethod.GET, status = ResponseCode.success)
+    @ServiceMethod(value = "aa", method = RequestMethod.GET, status = ResponseCode.success)
     public String test(
-            @Param(value = "$xyz", description = "",required = false)
-            String abc ,
-            @Param(value = "abc",description = "")
+            @Param(value = "$xyz", description = "", required = false)
+            String abc,
+            @Param(value = "abc", description = "")
             String aaq
     ) {
-             ResponseCode.success.record( "abc");
+        ResponseCode.success.record("abc");
         return "$test method " + abc + " :" + aaq;
     }
 

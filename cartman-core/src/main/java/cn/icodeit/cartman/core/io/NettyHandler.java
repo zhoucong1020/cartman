@@ -1,7 +1,5 @@
-package cn.icodeit.cartman.core.io.server;
+package cn.icodeit.cartman.core.io;
 
-import cn.icodeit.cartman.core.io.Request;
-import cn.icodeit.cartman.core.io.Response;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
@@ -15,9 +13,10 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
  * @author zhoucong
- * @since 0.0.1
  */
-public abstract class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
+public class NettyHandler extends ChannelInboundHandlerAdapter implements HandlerContainer {
+
+    private
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -35,8 +34,8 @@ public abstract class CartmanServerRequestHandler extends ChannelInboundHandlerA
                 ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE));
             }
 
-            //handle
-            handle(createContext(request, response, ctx));
+            //dispatch request
+            dispatch(new Request(request), new Response(response));
         }
     }
 
@@ -46,14 +45,12 @@ public abstract class CartmanServerRequestHandler extends ChannelInboundHandlerA
         ctx.close();
     }
 
-    public abstract void handle(ActionContext context);
+    @Override
+    public Handler getHandler(Request request) {
+        return null;
+    }
 
-    private ActionContext createContext(FullHttpRequest request, FullHttpResponse response, ChannelHandlerContext ctx) {
-        ActionContext context = new ActionContext();
-        context.request(new Request(request));
-        context.response(new Response(response));
-        context.nettyContext(ctx);
+    private void dispatch(Request request, Response response) {
 
-        return context;
     }
 }
