@@ -20,8 +20,14 @@ public class ActionHandler implements Handler {
 
     private ActionExecutor actionExecutor = new ActionExecutor();
 
+    private ActionInterceptors actionInterceptors = new ActionInterceptors();
+
     public void init() {
         actionExecutor.init();
+    }
+
+    public void addAInterceptor(ActionInterceptor interceptor) {
+        actionInterceptors.addAInterceptor(interceptor);
     }
 
     public void stop() {
@@ -43,7 +49,12 @@ public class ActionHandler implements Handler {
         try {
             ActionMapping mapping = getMapping(getUri(request), getRequestMethod(request));
             ActionContext context = createContext(request, response, mapping);
-            actionExecutor.submit(context);
+            if(actionInterceptors.isEmptyInterceptor()){
+                actionExecutor.submit(context);
+            }else {
+                actionExecutor.submit(context,actionInterceptors);
+            }
+
         } catch (ServiceException e) {
             response.status(e.getCode());
             response.body(getStackTrace(e));
@@ -55,6 +66,7 @@ public class ActionHandler implements Handler {
 
     private ActionContext createContext(Request request, Response response, ActionMapping mapping) {
         ActionContext context = new ActionContext(request, response, mapping);
+
         return context;
     }
 

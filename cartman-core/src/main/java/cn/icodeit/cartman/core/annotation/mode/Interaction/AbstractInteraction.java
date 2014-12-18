@@ -56,7 +56,7 @@ public abstract class AbstractInteraction implements Interaction {
         element.getParams().forEach(e -> {
 
             String attribute = requestMethod.getAttribute(e.getAnnotationName(), request, e.isRequired());
-            attribute = URLDecoder.decode(attribute);
+            //attribute = URLDecoder.decode(attribute);
             result.add(convert.convert(attribute, e.getClassType()));
 
         });

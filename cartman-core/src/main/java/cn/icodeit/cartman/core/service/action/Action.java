@@ -4,6 +4,7 @@ import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
 import cn.icodeit.cartman.core.annotation.mode.convert.JsonConvert;
 import cn.icodeit.cartman.core.io.Request;
 import cn.icodeit.cartman.core.service.ActionContext;
+import cn.icodeit.cartman.core.service.ActionInterceptor;
 import cn.icodeit.cartman.core.service.mapping.ActionMapping;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,6 +20,7 @@ import java.util.List;
 public abstract class Action implements Runnable {
 
     private ActionContext context;
+    private List<ActionInterceptor> interceptors;
 
     public Action(ActionContext context) {
         this.context = context;
@@ -29,9 +31,20 @@ public abstract class Action implements Runnable {
     @Override
     public void run() {
         context.getResponse().type("application/json");
-        Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConvert.getInstance()).toArray());
-        context.getResponse().body(JsonConvert.getInstance().stringConvert(res));
+
+        if(interceptors!=null && !interceptors.isEmpty()){
+            interceptors.forEach(e->{
+                e.before(context.getRequest());
+                Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConvert.getInstance()).toArray());
+                context.getResponse().body(JsonConvert.getInstance().stringConvert(res));
+                e.after(context.getResponse());
+            });
+        }else {
+            Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConvert.getInstance()).toArray());
+            context.getResponse().body(JsonConvert.getInstance().stringConvert(res));
+        }
     }
+
 
     private List getParams(ActionMapping actionMapping, Request request, Convert convert) {
         List result = new ArrayList();
@@ -61,5 +74,10 @@ public abstract class Action implements Runnable {
         }
 
         return null;
+    }
+
+
+    public void setInterceptors(List<ActionInterceptor> interceptors) {
+        this.interceptors = interceptors;
     }
 }
