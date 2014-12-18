@@ -16,13 +16,12 @@ public class Request {
     private FullHttpRequest request;
     private Map<String, String> params;
 
+    protected Request() {
+    }
+
     public Request(FullHttpRequest request) {
         this.request = request;
         this.params = getParams();
-    }
-
-    public FullHttpRequest request() {
-        return request;
     }
 
     /**
@@ -68,11 +67,6 @@ public class Request {
         return request.getMethod().name();
     }
 
-    /**
-     * 从url中获取参数
-     *
-     * @return 参数键值对Map
-     */
     private Map<String, String> getParams() {
         Map<String, String> params = new HashMap<>();
 

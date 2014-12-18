@@ -1,14 +1,17 @@
 package cn.icodeit.cartman.core.io.server;
 
+import cn.icodeit.cartman.core.io.Handler;
 import cn.icodeit.cartman.core.io.Request;
 import cn.icodeit.cartman.core.io.Response;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.*;
 
+import static cn.icodeit.cartman.core.io.Cartman.mapHandler;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
+import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
+import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
@@ -17,7 +20,7 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
  * @author zhoucong
  * @since 0.0.1
  */
-public abstract class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
+public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -36,7 +39,22 @@ public abstract class CartmanServerRequestHandler extends ChannelInboundHandlerA
             }
 
             //handle
-            handle(createContext(request, response, ctx));
+            Handler handler = mapHandler(request.getUri());
+            if (handler == null) {
+                response.setStatus(HttpResponseStatus.NOT_FOUND);
+            } else {
+                handler.handle(new Request(request), new Response(response));
+            }
+            System.out.println(request.getMethod().name() + " " + request.getUri() + " " + response.getStatus().code() + " ");
+
+            //keepAlive
+            boolean keepAlive = HttpHeaders.isKeepAlive(request);
+            if (!keepAlive) {
+                ctx.write(response).addListener(ChannelFutureListener.CLOSE);
+            } else {
+                response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+                ctx.write(response);
+            }
         }
     }
 
@@ -44,16 +62,5 @@ public abstract class CartmanServerRequestHandler extends ChannelInboundHandlerA
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
-    }
-
-    public abstract void handle(ActionContext context);
-
-    private ActionContext createContext(FullHttpRequest request, FullHttpResponse response, ChannelHandlerContext ctx) {
-        ActionContext context = new ActionContext();
-        context.request(new Request(request));
-        context.response(new Response(response));
-        context.nettyContext(ctx);
-
-        return context;
     }
 }

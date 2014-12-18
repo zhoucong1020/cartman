@@ -1,6 +1,4 @@
-package cn.icodeit.cartman.core.service.annotation;
-
-import cn.icodeit.cartman.core.annotation.MethodField;
+package cn.icodeit.cartman.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,16 +6,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author yuanweifeng
- * @since 0.0.1
+ * .
+ * User: yuanweifeng
+ * Date: 14-11-19
+ * Time: 下午2:59
  */
-@Target(ElementType.TYPE)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Service {
+public @interface Param {
 
     String value() default "";
 
-    RequestMethod method() default RequestMethod.POST;
-
     String description() default "";
+
+    boolean required() default true;
 }

@@ -31,6 +31,6 @@ public class CartmanServerInitializer extends ChannelInitializer<SocketChannel> 
         p.addLast(new HttpObjectAggregator(65536));
         p.addLast(new HttpResponseEncoder());
         p.addLast(new ChunkedWriteHandler());
-        p.addLast(new CartmanActionHandler());
+        p.addLast(new CartmanServerRequestHandler());
     }
 }
