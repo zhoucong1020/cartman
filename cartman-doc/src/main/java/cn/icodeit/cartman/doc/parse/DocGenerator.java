@@ -1,9 +1,8 @@
 package cn.icodeit.cartman.doc.parse;
 
-import cn.icodeit.cartman.core.annotation.Mapping;
-import cn.icodeit.cartman.core.annotation.Param;
-import cn.icodeit.cartman.core.annotation.Service;
-import cn.icodeit.cartman.core.annotation.mode.AccessElement;
+import cn.icodeit.cartman.core.service.annotation.Param;
+import cn.icodeit.cartman.core.service.annotation.Service;
+import cn.icodeit.cartman.core.service.annotation.ServiceMethod;
 import cn.icodeit.cartman.doc.view.*;
 
 import java.lang.reflect.*;
@@ -13,40 +12,14 @@ public class DocGenerator {
 
     public static Set<Class> modelNames = new HashSet<>();
 
-    /**
-     * 根据扫描服务接口的结果生成文档对象
-     *
-     * @param map 扫描{@link cn.icodeit.cartman.core.annotation.Service}的结果{@link cn.icodeit.cartman.core.annotation.parse.InitServiceCall}
-     * @return DocApi 生成的文档对象
-     */
-    public static DocApi generateDocApi(Map<String,List<AccessElement>> map) {
-        DocApi docApi = new DocApi();
-        List<DocService> docServices = docApi.getApis();
-        Set<Class> classes = new HashSet<>();
-        map.forEach((str, list) -> {
-            list.forEach(ele -> {
-                    classes.add(ele.getClazz());
-            });
-        });
-        classes.forEach(clazz -> {
-            docServices.add(DocGenerator.generateDocService(clazz));
-        });
-        return docApi;
-    }
-
-    public static DocApi generateDocApi(List<String> list) {
+    public static DocApi generateDocApi(List<Class<?>> list) {
         modelNames.clear();
         DocApi docApi = new DocApi();
         List services = docApi.getApis();
-        list.forEach(str -> {
-            try {
-                Class clazz = Class.forName(str);
+        list.forEach(clazz -> {
                 if (clazz.isAnnotationPresent(Service.class)) {
                     services.add(generateDocService(clazz));
                 }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
         });
         return docApi;
     }
@@ -82,8 +55,8 @@ public class DocGenerator {
 
     public static DocMapping generateDocMapping(DocService docService, Service service, Method method) {
         DocMapping docMapping = new DocMapping();
-        if (method.isAnnotationPresent(Mapping.class)) {
-            Mapping mapping = method.getAnnotation(Mapping.class);
+        if (method.isAnnotationPresent(ServiceMethod.class)) {
+            ServiceMethod mapping = method.getAnnotation(ServiceMethod.class);
             docMapping.setDescription(mapping.description());
             if (mapping.value().toString().startsWith("/")) {
                 docMapping.setPath(mapping.value());
@@ -114,7 +87,7 @@ public class DocGenerator {
         return operations;
     }
 
-    public static List<Operation> generateOperations(java.lang.reflect.Method method, Mapping mapping) {
+    public static List<Operation> generateOperations(java.lang.reflect.Method method, ServiceMethod mapping) {
         List<Operation> operations = new ArrayList<Operation>();
         Arrays.asList(mapping.method()).forEach(m -> {
             Operation operation = new Operation();

@@ -1,6 +1,6 @@
 package cn.icodeit.cartman.doc.parse;
 
-import cn.icodeit.cartman.core.annotation.MethodField;
+import cn.icodeit.cartman.core.service.annotation.RequestMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +33,10 @@ public class DocTypeFormatter {
         defaultDataTypeMap.put("java.util.DateTime", "string");
         defaultDataTypeMap.put("java.sql.TimeStamp", "string");
 
-        defaultParamTypeMap.put(MethodField.GET.name(),"query");
-        defaultParamTypeMap.put(MethodField.POST.name(),"form");
-        defaultParamTypeMap.put(MethodField.PUT.name(),"query");
-        defaultParamTypeMap.put(MethodField.DELETE.name(),"query");
+        defaultParamTypeMap.put(RequestMethod.GET.name(),"query");
+        defaultParamTypeMap.put(RequestMethod.POST.name(),"form");
+        defaultParamTypeMap.put(RequestMethod.PUT.name(),"query");
+        defaultParamTypeMap.put(RequestMethod.DELETE.name(),"query");
         defaultParamTypeMap.put("body","body");
     }
 
@@ -53,4 +53,11 @@ public class DocTypeFormatter {
          return clz != null && clz.getClassLoader() == null;
       }
 
+    public static String generateParamType(String paramType,String method) {
+        if(paramType.equals(DocTypeFormatter.defaultParamTypeMap.get("body"))){
+            return  paramType;
+        }else{
+            return DocTypeFormatter.defaultParamTypeMap.get(method) ;
+        }
+    }
 }

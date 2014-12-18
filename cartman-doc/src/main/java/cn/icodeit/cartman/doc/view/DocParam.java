@@ -1,9 +1,5 @@
 package cn.icodeit.cartman.doc.view;
 
-import cn.icodeit.cartman.doc.parse.DocTypeFormatter;
-
-import java.awt.event.ItemEvent;
-
 /**
  * Created by lcf on 2014/11/26.
  */

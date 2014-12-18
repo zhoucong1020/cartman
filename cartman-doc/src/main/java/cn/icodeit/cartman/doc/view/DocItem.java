@@ -1,7 +1,5 @@
 package cn.icodeit.cartman.doc.view;
 
-import java.lang.reflect.Type;
-
 /**
  * Created by lcf on 2014/12/2.
  */
