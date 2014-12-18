@@ -1,18 +1,13 @@
-package cn.icodeit.cartman.core.io.server;
+package cn.icodeit.cartman.core.io;
 
-import cn.icodeit.cartman.core.io.Handler;
-import cn.icodeit.cartman.core.io.Request;
-import cn.icodeit.cartman.core.io.Response;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
 
-import static cn.icodeit.cartman.core.io.Cartman.mapHandler;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_HEADERS;
-import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW_ORIGIN;
-import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
+import static cn.icodeit.cartman.core.io.HandlerContainer.getHandler;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
+import static io.netty.handler.codec.http.HttpResponseStatus.NOT_FOUND;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
@@ -35,25 +30,17 @@ public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
 
             //100 continue
             if (HttpHeaders.is100ContinueExpected(request)) {
-                ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE));
+                ctx.write(new DefaultFullHttpResponse(HTTP_1_1, CONTINUE)).addListener(ChannelFutureListener.CLOSE);
+                return;
             }
 
             //handle
-            Handler handler = mapHandler(request.getUri());
+            AbstractHandler handler = getHandler(request.getUri());
             if (handler == null) {
-                response.setStatus(HttpResponseStatus.NOT_FOUND);
+                ctx.write(new DefaultFullHttpResponse(HTTP_1_1, NOT_FOUND)).addListener(ChannelFutureListener.CLOSE);
+                return;
             } else {
-                handler.handle(new Request(request), new Response(response));
-            }
-            System.out.println(request.getMethod().name() + " " + request.getUri() + " " + response.getStatus().code() + " ");
-
-            //keepAlive
-            boolean keepAlive = HttpHeaders.isKeepAlive(request);
-            if (!keepAlive) {
-                ctx.write(response).addListener(ChannelFutureListener.CLOSE);
-            } else {
-                response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
-                ctx.write(response);
+                handler.doHandle(new Request(request), new Response(response), ctx);
             }
         }
     }
@@ -63,4 +50,5 @@ public class CartmanServerRequestHandler extends ChannelInboundHandlerAdapter {
         cause.printStackTrace();
         ctx.close();
     }
+
 }

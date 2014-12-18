@@ -1,10 +1,10 @@
 package cn.icodeit.cartman.core.service.action;
 
-import cn.icodeit.cartman.core.annotation.mode.convert.Convert;
-import cn.icodeit.cartman.core.annotation.mode.convert.JsonConvert;
 import cn.icodeit.cartman.core.io.Request;
 import cn.icodeit.cartman.core.service.ActionContext;
 import cn.icodeit.cartman.core.service.ActionInterceptor;
+import cn.icodeit.cartman.core.service.Converter;
+import cn.icodeit.cartman.core.service.JsonConverter;
 import cn.icodeit.cartman.core.service.mapping.ActionMapping;
 
 import java.lang.reflect.InvocationTargetException;
@@ -35,23 +35,22 @@ public abstract class Action implements Runnable {
         if(interceptors!=null && !interceptors.isEmpty()){
             interceptors.forEach(e->{
                 e.before(context.getRequest());
-                Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConvert.getInstance()).toArray());
-                context.getResponse().body(JsonConvert.getInstance().stringConvert(res));
+                Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConverter.getInstance()).toArray());
+                context.getResponse().body(JsonConverter.getInstance().serialize(res));
                 e.after(context.getResponse());
             });
         }else {
-            Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConvert.getInstance()).toArray());
-            context.getResponse().body(JsonConvert.getInstance().stringConvert(res));
+            Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConverter.getInstance()).toArray());
+            context.getResponse().body(JsonConverter.getInstance().serialize(res));
         }
     }
 
-
-    private List getParams(ActionMapping actionMapping, Request request, Convert convert) {
+    private List getParams(ActionMapping actionMapping, Request request, Converter convert) {
         List result = new ArrayList();
         actionMapping.getParams().forEach(e -> {
             String attribute = getAttribute(e.getAnnotationName(), request, e.isRequired());
             attribute = URLDecoder.decode(attribute);
-            result.add(convert.convert(attribute, e.getClassType()));
+            result.add(convert.deserialize(attribute, e.getClassType()));
         });
 
         return result;

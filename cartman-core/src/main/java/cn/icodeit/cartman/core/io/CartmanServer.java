@@ -1,4 +1,4 @@
-package cn.icodeit.cartman.core.io.server;
+package cn.icodeit.cartman.core.io;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -14,22 +14,15 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 import javax.net.ssl.SSLException;
 import java.security.cert.CertificateException;
 
-import static cn.icodeit.cartman.core.io.server.ServerContext.port;
-import static cn.icodeit.cartman.core.io.server.ServerContext.ssl;
-
 /**
  * @author zhoucong
  * @since 0.0.1
  */
 public class CartmanServer {
     public void start() throws CertificateException, SSLException {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-
-        }));
-
         // Configure SSL.
         final SslContext sslCtx;
-        if (ssl()) {
+        if (ServerContext.ssl()) {
             SelfSignedCertificate ssc = new SelfSignedCertificate();
             sslCtx = SslContext.newServerContext(ssc.certificate(), ssc.privateKey());
         } else {
@@ -47,7 +40,7 @@ public class CartmanServer {
                     .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new CartmanServerInitializer(sslCtx));
 
-            Channel channel = bootstrap.bind(port()).syncUninterruptibly().channel();
+            Channel channel = bootstrap.bind(ServerContext.port()).syncUninterruptibly().channel();
 
             channel.closeFuture().syncUninterruptibly();
         } finally {

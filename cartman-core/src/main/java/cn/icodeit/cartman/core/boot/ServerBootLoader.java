@@ -5,7 +5,7 @@ import cn.icodeit.cartman.core.io.Response;
 import cn.icodeit.cartman.core.service.ActionHandler;
 import cn.icodeit.cartman.core.service.ActionInterceptor;
 
-import static cn.icodeit.cartman.core.io.Cartman.addHandler;
+import static cn.icodeit.cartman.core.Cartman.handler;
 import static cn.icodeit.cartman.core.service.ActionConfiguration.scan;
 
 /**
@@ -16,9 +16,7 @@ public class ServerBootLoader {
 
     public static void main(String... args) {
         scan("cn.icodeit.cartman.core.boot.testService");
-
         ActionHandler handler = new ActionHandler();
-        handler.init();
         handler.addAInterceptor(new ActionInterceptor() {
             @Override
             public void before(Request request) {
@@ -31,7 +29,6 @@ public class ServerBootLoader {
             }
         });
 
-
-        addHandler("/", handler);
+        handler("/", new ActionHandler());
     }
 }

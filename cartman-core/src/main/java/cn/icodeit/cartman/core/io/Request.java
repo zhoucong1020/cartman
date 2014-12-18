@@ -16,12 +16,13 @@ public class Request {
     private FullHttpRequest request;
     private Map<String, String> params;
 
-    protected Request() {
-    }
-
     public Request(FullHttpRequest request) {
         this.request = request;
         this.params = getParams();
+    }
+
+    public FullHttpRequest request() {
+        return request;
     }
 
     /**
