@@ -1,4 +1,4 @@
-package cn.icodeit.cartman.core.io.server;
+package cn.icodeit.cartman.core.io;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;

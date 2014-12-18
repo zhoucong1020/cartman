@@ -1,5 +1,6 @@
 package cn.icodeit.cartman.core.service;
 
+import cn.icodeit.cartman.core.service.annotation.Param;
 import cn.icodeit.cartman.core.service.annotation.RequestMethod;
 import cn.icodeit.cartman.core.service.annotation.Service;
 import cn.icodeit.cartman.core.service.annotation.ServiceMethod;
@@ -41,8 +42,7 @@ public class ClassMapper {
             }
 
             for (Parameter parameter : method.getParameters()) {
-                cn.icodeit.cartman.core.annotation.Param param =
-                        parameter.getAnnotation(cn.icodeit.cartman.core.annotation.Param.class);
+                Param param = parameter.getAnnotation(Param.class);
 
                 String paramName;
                 boolean required = true;

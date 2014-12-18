@@ -1,6 +1,6 @@
 package cn.icodeit.cartman.core.service;
 
-import cn.icodeit.cartman.core.io.Handler;
+import cn.icodeit.cartman.core.io.AbstractHandler;
 import cn.icodeit.cartman.core.io.Request;
 import cn.icodeit.cartman.core.io.Response;
 import cn.icodeit.cartman.core.service.annotation.RequestMethod;
@@ -16,11 +16,11 @@ import static cn.icodeit.cartman.core.service.ActionConfiguration.getMapping;
  * @author zhoucong
  * @since 0.0.1
  */
-public class ActionHandler implements Handler {
+public class ActionHandler extends AbstractHandler {
 
     private ActionExecutor actionExecutor = new ActionExecutor();
 
-    public void init() {
+    public ActionHandler() {
         actionExecutor.init();
     }
 
