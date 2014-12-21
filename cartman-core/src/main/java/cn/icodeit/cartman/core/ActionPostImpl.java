@@ -1,15 +1,16 @@
 package cn.icodeit.cartman.core;
 
 import cn.icodeit.cartman.core.server.Request;
-import cn.icodeit.cartman.core.service.ActionContext;
+
+import java.lang.reflect.Method;
 
 /**
  * @author zhoucong
  */
-public class PostAction extends Action {
+public class ActionPostImpl extends Action {
 
-    public PostAction(ActionContext context) {
-        super(context);
+    public ActionPostImpl(String path, Class<?> clazz, Method method) {
+        super(path, clazz, method);
     }
 
     @Override

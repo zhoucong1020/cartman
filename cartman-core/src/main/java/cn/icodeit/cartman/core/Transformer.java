@@ -3,7 +3,7 @@ package cn.icodeit.cartman.core;
 /**
  * @author zhoucong
  */
-public interface Converter {
+public interface Transformer {
 
     public String serialize(Object object);
 
