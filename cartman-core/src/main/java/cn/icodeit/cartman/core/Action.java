@@ -35,7 +35,7 @@ public abstract class Action {
     }
 
     public void handle(Request request, Response response) {
-        //TODO: type 应该根据transformer类型确定
+        //TODO: ->csj "type 应该根据transformer类型确定，但注意对现有结构影响最小"
         response.type("application/json");
         try {
             Object result = method.invoke(
@@ -65,6 +65,7 @@ public abstract class Action {
         params.forEach(param -> {
             String attribute = getAttribute(param.getName(), request, param.isRequired());
             try {
+                //TODO: ->csj 编码类型应该可配置，应该在Cartman中添加相应方法
                 attribute = URLDecoder.decode(attribute, "utf-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();

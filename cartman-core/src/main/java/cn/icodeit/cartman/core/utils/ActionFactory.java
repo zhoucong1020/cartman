@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 public class ActionFactory {
     public static Action createAction(String path, RequestMethod requestMethod, Class<?> clazz, Method method) {
         switch (requestMethod) {
-            //TODO: 添加put delete类型
+            //TODO: ->ywf "添加put delete类型"
             case GET:
                 return new ActionGetImpl(path, clazz, method);
             case POST:

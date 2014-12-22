@@ -14,6 +14,7 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW
  */
 public class Response {
 
+    //TODO: ->zhoucong 对象功能完善
     private FullHttpResponse response;
     private String body;
 
@@ -49,6 +50,7 @@ public class Response {
     public void body(String body) {
         this.body = body;
         try {
+            //TODO: ->zhoucong 编码处理
             response.content().writeBytes(Charset.forName("UTF-8").encode(body));
             response.headers().add("Content-Length", response.content().readableBytes());
             response.headers().add("charset", "utf-8");

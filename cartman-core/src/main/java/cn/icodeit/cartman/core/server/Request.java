@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class Request {
 
+    //TODO: ->zhoucong 对象功能完善，支持PathParam
     private FullHttpRequest request;
     private Map<String, String> params;
 

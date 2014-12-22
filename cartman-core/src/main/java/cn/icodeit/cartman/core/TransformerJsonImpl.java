@@ -25,7 +25,7 @@ public class TransformerJsonImpl implements Transformer {
     }
 
     @Override
-    public <T> T deserialize(String paramString, Class<T> convertClazz) {
-        return JSON.parseObject(paramString, convertClazz);
+    public <T> T deserialize(String str, Class<T> convertClazz) {
+        return JSON.parseObject(str, convertClazz);
     }
 }

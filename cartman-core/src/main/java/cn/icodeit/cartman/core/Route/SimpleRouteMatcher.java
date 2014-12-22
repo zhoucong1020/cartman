@@ -28,6 +28,7 @@ public class SimpleRouteMatcher implements RouteMatcher {
         routeEntries.add(entry);
     }
 
+    //TODO: ->ywf 考虑多匹配情况下的处理，考察其他框架的处理方式，提出方案，暂不修改
     @Override
     public RouteMatch findTargetForRequestedRoute(String url, RequestMethod requestMethod) {
         List<RouteEntry> matches = findTargetsForRequestedRoute(url, requestMethod);
