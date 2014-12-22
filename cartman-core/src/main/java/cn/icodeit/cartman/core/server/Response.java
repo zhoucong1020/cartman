@@ -10,6 +10,7 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.ACCESS_CONTROL_ALLOW
 
 /**
  * @author zhoucong
+ * @since 0.0.1
  */
 public class Response {
 

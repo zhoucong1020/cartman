@@ -5,6 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * @author zhoucong
+ * @since 0.0.2
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ServiceError {
