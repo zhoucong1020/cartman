@@ -8,7 +8,7 @@ import cn.icodeit.cartman.core.annotation.*;
  * Date: 14-11-26
  * Time: 上午10:51
  */
-@Service(value = "s001")
+@Service("s001")
 public class ServiceA {
 
     @ServiceMethod(value = "aa/*/bb", method = RequestMethod.GET,
@@ -19,7 +19,7 @@ public class ServiceA {
     public int test(
             @Param(value = "$xyz", description = "", required = false)
             String abc,
-            @Param(value = "abc", description = "")
+            @Param("abc")
             String aaq
     ) {
         return 12121212;
