@@ -55,9 +55,9 @@ public class Request {
     }
 
     /**
-     * @return 请求URI部分
+     * @return 请求URL部分
      */
-    public String uri() {
+    public String url() {
         return request.getUri().split("\\?")[0];
     }
 

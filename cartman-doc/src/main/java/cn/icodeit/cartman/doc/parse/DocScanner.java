@@ -1,12 +1,9 @@
 package cn.icodeit.cartman.doc.parse;
 
-
-import cn.icodeit.cartman.core.service.ActionHandler;
-import cn.icodeit.cartman.core.service.ClassScanner;
+import cn.icodeit.cartman.core.utils.ClassScanUtils;
 import cn.icodeit.cartman.doc.provider.DocApiProvider;
 
-import static cn.icodeit.cartman.core.Cartman.handler;
-import static cn.icodeit.cartman.core.service.ActionConfiguration.scan;
+import static cn.icodeit.cartman.core.Cartman.scan;
 
 
 /**
@@ -14,9 +11,7 @@ import static cn.icodeit.cartman.core.service.ActionConfiguration.scan;
  */
 public class DocScanner {
     public static void main(String[] args) {
-        String packageName = "cn.icodeit.cartman.doc.testService";
-        scan(packageName);
-        handler("/", new ActionHandler());
-        DocApiProvider.init(ClassScanner.scan(packageName));
+        scan("cn.icodeit.cartman.doc.testService");
+        DocApiProvider.init(ClassScanUtils.scan("cn.icodeit.cartman.doc.testService"));
     }
 }

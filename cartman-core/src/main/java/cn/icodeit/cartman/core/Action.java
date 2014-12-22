@@ -1,13 +1,11 @@
 package cn.icodeit.cartman.core;
 
 import cn.icodeit.cartman.core.server.Request;
-import cn.icodeit.cartman.core.service.ActionContext;
-import cn.icodeit.cartman.core.service.ActionInterceptor;
-import cn.icodeit.cartman.core.service.Converter;
-import cn.icodeit.cartman.core.service.JsonConverter;
-import cn.icodeit.cartman.core.service.mapping.ActionMapping;
+import cn.icodeit.cartman.core.server.Response;
+import cn.icodeit.cartman.core.utils.BeanFactory;
+import cn.icodeit.cartman.core.utils.CartmanUtils;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -17,66 +15,63 @@ import java.util.List;
  * @author zhoucong
  * @since 0.0.1
  */
-public abstract class Action implements Runnable {
+public abstract class Action {
 
-    private ActionContext context;
-    private List<ActionInterceptor> interceptors;
+    private String path;
+    private Class<?> clazz;
+    private Method method;
+    private List<ParamImpl> params = new ArrayList<>();
 
-    public Action(ActionContext context) {
-        this.context = context;
+    public Action(String path, Class<?> clazz, Method method) {
+        this.path = path;
+        this.clazz = clazz;
+        this.method = method;
     }
 
     public abstract String getAttribute(String annotationName, Request request, boolean required);
 
-    @Override
-    public void run() {
-        context.getResponse().type("application/json");
+    public String getPath() {
+        return path;
+    }
 
-        if(interceptors!=null && !interceptors.isEmpty()){
-            interceptors.forEach(e->{
-                e.before(context.getRequest());
-                Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConverter.getInstance()).toArray());
-                context.getResponse().body(JsonConverter.getInstance().serialize(res));
-                e.after(context.getResponse());
-            });
-        }else {
-            Object res = invoke(context.getActionMapping(), getParams(context.getActionMapping(), context.getRequest(), JsonConverter.getInstance()).toArray());
-            context.getResponse().body(JsonConverter.getInstance().serialize(res));
+    public void handle(Request request, Response response) {
+        //TODO: type 应该根据transformer类型确定
+        response.type("application/json");
+        try {
+            Object result = method.invoke(
+                    BeanFactory.get(clazz),
+                    getParams(request, TransformerJsonImpl.getInstance()).toArray());
+            response.status(200);
+            if (result == null) {
+                response.body("");
+            } else {
+                response.body(CartmanBase.converter().serialize(result));
+            }
+        } catch (ServiceException e) {
+            response.status(e.getCode());
+            response.body(CartmanUtils.getExceptionTrack(e));
+        } catch (Exception e) {
+            response.status(500);
+            response.body(CartmanUtils.getExceptionTrack(e));
         }
     }
 
-    private List getParams(ActionMapping actionMapping, Request request, Converter convert) {
+    public void addParam(ParamImpl param) {
+        params.add(param);
+    }
+
+    private List getParams(Request request, Transformer transformer) {
         List result = new ArrayList();
-        actionMapping.getParams().forEach(e -> {
-            String attribute = getAttribute(e.getAnnotationName(), request, e.isRequired());
-            attribute = URLDecoder.decode(attribute);
-            result.add(convert.deserialize(attribute, e.getClassType()));
+        params.forEach(param -> {
+            String attribute = getAttribute(param.getName(), request, param.isRequired());
+            try {
+                attribute = URLDecoder.decode(attribute, "utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            result.add(transformer.deserialize(attribute, param.getClazz()));
         });
 
         return result;
-    }
-
-    public Object invoke(ActionMapping actionMapping, Object... args) {
-        try {
-            Class clazz = actionMapping.getClazz();
-            Method method = actionMapping.getMethod();
-            //TODO 采用对象池实现
-            Object invokerObject = clazz.newInstance();
-
-            if (invokerObject == null) {
-                invokerObject = clazz.newInstance();
-            }
-
-            return method.invoke(invokerObject, args);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    public void setInterceptors(List<ActionInterceptor> interceptors) {
-        this.interceptors = interceptors;
     }
 }

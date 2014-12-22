@@ -5,11 +5,11 @@ package cn.icodeit.cartman.doc.view;
  */
 public class DocInfo {
     private String title = "";
-    private String description="";
-    private String termsOfServiceUrl="";
-    private String contact="";
-    private String license="";
-    private String licenseUrl="";
+    private String description = "";
+    private String termsOfServiceUrl = "";
+    private String contact = "";
+    private String license = "";
+    private String licenseUrl = "";
 
     public String getTitle() {
         return title;

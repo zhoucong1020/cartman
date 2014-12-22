@@ -1,5 +1,7 @@
 package cn.icodeit.cartman.core.utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,5 +20,24 @@ public enum CartmanUtils {
             }
         }
         return path;
+    }
+
+    public static String getExceptionTrack(Exception e) {
+        if (e != null) {
+            StringWriter stringWriter = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(stringWriter);
+            e.printStackTrace(printWriter);
+            return stringWriter.toString();
+        }
+
+        return "";
+    }
+
+    public static boolean isWrapClass(Class clz) {
+        try {
+            return ((Class) clz.getField("TYPE").get(null)).isPrimitive();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

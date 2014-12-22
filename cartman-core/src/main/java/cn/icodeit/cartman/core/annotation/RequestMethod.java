@@ -1,12 +1,11 @@
 package cn.icodeit.cartman.core.annotation;
 
 /**
- * .
- * User: yuanweifeng
- * Date: 14-11-19
- * Time: 下午3:08
+ * @author yuanweifeng
+ * @since 0.0.1
  */
 public enum RequestMethod {
+    ALL,
     GET,
     POST,
     PUT,

@@ -1,15 +1,13 @@
 package cn.icodeit.cartman.doc.provider;
 
 import cn.icodeit.cartman.core.Cartman;
-import cn.icodeit.cartman.core.service.ActionHandler;
-import cn.icodeit.cartman.core.service.JsonConverter;
 import cn.icodeit.cartman.doc.parse.DocGenerator;
 import cn.icodeit.cartman.doc.parse.DocTypeFormatter;
-import cn.icodeit.cartman.doc.view.*;
+import cn.icodeit.cartman.doc.view.DocApi;
+import cn.icodeit.cartman.doc.view.DocItem;
+import cn.icodeit.cartman.doc.view.DocService;
 
 import java.util.List;
-
-import static cn.icodeit.cartman.core.Cartman.handler;
 
 /**
  * Created by lcf on 2014/11/26.
@@ -22,8 +20,7 @@ public class DocApiProvider {
 
     public static void init(List<Class<?>> list) {
         docApi = DocGenerator.generateDocApi(list);
-//        Cartman.addHandler("/doc.json", new DocHandler<DocApi>(docApi));
-        handler("/doc.json", new DocHandler<DocApi>(docApi));
+        Cartman.get("/doc.json", new DocHandler<>(docApi));
         docApi.getApis().forEach(docService -> {
             docService.setApiVersion(docApi.getApiVersion());
             docService.setBasePath("/");
@@ -32,8 +29,8 @@ public class DocApiProvider {
             if (path.startsWith("/")) {
                 path = path.substring(1);
             }
-//            Cartman.addHandler("/doc.json/" + path, new DocHandler<DocService>(docService));
-            handler("/doc.json/" + path, new DocHandler<DocService>(docService));
+
+            Cartman.get("/doc.json/" + path, new DocHandler<>(docService));
             docService.getApis().forEach(docMapping -> {
                 docMapping.getOperations().forEach(operation -> {
                     operation.getParameters().forEach(docParam -> {

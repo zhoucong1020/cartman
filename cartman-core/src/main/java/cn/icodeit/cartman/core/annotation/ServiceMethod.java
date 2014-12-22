@@ -17,7 +17,7 @@ public @interface ServiceMethod {
 
     RequestMethod method() default RequestMethod.GET;
 
-    ResponseCode[] status();
+    ServiceError[] errors();
 
     String description() default "";
 }

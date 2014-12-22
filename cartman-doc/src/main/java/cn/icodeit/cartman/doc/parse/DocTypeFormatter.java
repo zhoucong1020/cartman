@@ -1,6 +1,6 @@
 package cn.icodeit.cartman.doc.parse;
 
-import cn.icodeit.cartman.core.service.annotation.RequestMethod;
+import cn.icodeit.cartman.core.annotation.RequestMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,8 +9,9 @@ import java.util.Map;
  * Created by lcf on 2014/12/2.
  */
 public class DocTypeFormatter {
-    public static Map<String,String> defaultParamTypeMap = new HashMap<>();
-   public static Map<String,String> defaultDataTypeMap = new HashMap<>();
+    public static Map<String, String> defaultParamTypeMap = new HashMap<>();
+    public static Map<String, String> defaultDataTypeMap = new HashMap<>();
+
     static {
         defaultDataTypeMap.put("byte", "integer");
         defaultDataTypeMap.put("short", "integer");
@@ -33,31 +34,32 @@ public class DocTypeFormatter {
         defaultDataTypeMap.put("java.util.DateTime", "string");
         defaultDataTypeMap.put("java.sql.TimeStamp", "string");
 
-        defaultParamTypeMap.put(RequestMethod.GET.name(),"query");
-        defaultParamTypeMap.put(RequestMethod.POST.name(),"form");
-        defaultParamTypeMap.put(RequestMethod.PUT.name(),"query");
-        defaultParamTypeMap.put(RequestMethod.DELETE.name(),"query");
-        defaultParamTypeMap.put("body","body");
+        defaultParamTypeMap.put(RequestMethod.GET.name(), "query");
+        defaultParamTypeMap.put(RequestMethod.POST.name(), "form");
+        defaultParamTypeMap.put(RequestMethod.PUT.name(), "query");
+        defaultParamTypeMap.put(RequestMethod.DELETE.name(), "query");
+        defaultParamTypeMap.put("body", "body");
     }
 
-    public static  String formatType(String type){
+    public static String formatType(String type) {
         String str = DocTypeFormatter.defaultDataTypeMap.get(type);
-        if(str!=null){
-            return  str;
-        }else{
-            type = type.substring(type.lastIndexOf(".")+1);
+        if (str != null) {
+            return str;
+        } else {
+            type = type.substring(type.lastIndexOf(".") + 1);
         }
         return str;
     }
-    public static boolean isJavaClass(Class<?> clz) {
-         return clz != null && clz.getClassLoader() == null;
-      }
 
-    public static String generateParamType(String paramType,String method) {
-        if(paramType.equals(DocTypeFormatter.defaultParamTypeMap.get("body"))){
-            return  paramType;
-        }else{
-            return DocTypeFormatter.defaultParamTypeMap.get(method) ;
+    public static boolean isJavaClass(Class<?> clz) {
+        return clz != null && clz.getClassLoader() == null;
+    }
+
+    public static String generateParamType(String paramType, String method) {
+        if (paramType.equals(DocTypeFormatter.defaultParamTypeMap.get("body"))) {
+            return paramType;
+        } else {
+            return DocTypeFormatter.defaultParamTypeMap.get(method);
         }
     }
 }

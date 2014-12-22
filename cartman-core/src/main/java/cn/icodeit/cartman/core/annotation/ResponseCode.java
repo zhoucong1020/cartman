@@ -3,7 +3,7 @@ package cn.icodeit.cartman.core.annotation;
 /**
  * @author zhoucong
  */
-public enum  ResponseCode {
+public enum ResponseCode {
     SUCCESS,
     NOT_FOUND,
     PERMISSION_401,

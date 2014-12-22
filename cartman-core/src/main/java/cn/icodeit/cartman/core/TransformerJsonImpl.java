@@ -10,6 +10,10 @@ public class TransformerJsonImpl implements Transformer {
 
     private static Transformer instance = new TransformerJsonImpl();
 
+    public static Transformer getInstance() {
+        return instance;
+    }
+
     @Override
     public String serialize(Object object) {
         if (object.getClass().isPrimitive() || CartmanUtils.isWrapClass(object.getClass())) {
@@ -23,10 +27,4 @@ public class TransformerJsonImpl implements Transformer {
     public <T> T deserialize(String paramString, Class<T> convertClazz) {
         return JSON.parseObject(paramString, convertClazz);
     }
-
-    public static Transformer getInstance() {
-        return instance;
-    }
-
-
 }

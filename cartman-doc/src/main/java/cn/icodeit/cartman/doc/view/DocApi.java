@@ -12,8 +12,8 @@ import java.util.Map;
 public class DocApi {
 
     private String apiVersion = "";
-    private String basePath="";
-    private String resourcePath="";
+    private String basePath = "";
+    private String resourcePath = "";
     private List<DocService> apis = new ArrayList<>();
     private Map<String, Object> models = new HashMap<>();
     DocInfo docInfo = new DocInfo();

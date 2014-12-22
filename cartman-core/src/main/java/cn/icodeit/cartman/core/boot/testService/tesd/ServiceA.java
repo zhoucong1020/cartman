@@ -1,6 +1,6 @@
 package cn.icodeit.cartman.core.boot.testService.tesd;
 
-import cn.icodeit.cartman.core.service.annotation.*;
+import cn.icodeit.cartman.core.annotation.*;
 
 
 /**
@@ -12,7 +12,11 @@ import cn.icodeit.cartman.core.service.annotation.*;
 @Service(value = "s002")
 public class ServiceA {
 
-    @ServiceMethod(value = "aa", method = RequestMethod.GET, status = ResponseCode.success)
+    @ServiceMethod(value = "aa", method = RequestMethod.GET,
+            errors = {
+                    @ServiceError(value = 200, description = "")
+            }
+    )
     public String test(
             @Param(value = "$xyz", description = "", required = false)
             String abc,
@@ -23,7 +27,11 @@ public class ServiceA {
     }
 
 
-    @ServiceMethod(value = "ss", status = ResponseCode.success)
+    @ServiceMethod(value = "ss",
+            errors = {
+                    @ServiceError(value = 200, description = "")
+            }
+    )
     public String test(
 
     ) {

@@ -10,6 +10,20 @@ public class ParamImpl {
     private boolean required;
 
     public ParamImpl(String name, Class<?> clazz, boolean required) {
+        this.name = name;
+        this.clazz = clazz;
+        this.required = required;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public Class<?> getClazz() {
+        return clazz;
+    }
+
+    public boolean isRequired() {
+        return required;
     }
 }

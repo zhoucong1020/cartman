@@ -5,7 +5,7 @@ package cn.icodeit.cartman.doc.view;
  */
 public class DocResponseMessage {
     private String message;
-    private  int code;
+    private int code;
 
     public String getMessage() {
         return message;

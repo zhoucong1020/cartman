@@ -9,13 +9,13 @@ import java.util.Map;
  * Created by lcf on 2014/11/26.
  */
 public class DocService {
-    private  String apiVersion ="";
-    private  String basePath ="";
-    private  String resourcePath="";
-    private  String path="";
-    private  List<DocMapping> apis = new ArrayList<DocMapping>();
-    private   Map<String, Object> models = new HashMap<>();
-    private   String description;
+    private String apiVersion = "";
+    private String basePath = "";
+    private String resourcePath = "";
+    private String path = "";
+    private List<DocMapping> apis = new ArrayList<DocMapping>();
+    private Map<String, Object> models = new HashMap<>();
+    private String description;
 
     public String getPath() {
         return path;

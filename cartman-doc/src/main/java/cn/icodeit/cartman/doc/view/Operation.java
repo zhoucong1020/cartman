@@ -7,14 +7,14 @@ import java.util.List;
  * Created by lcf on 2014/11/26.
  */
 public class Operation {
-    private  String method ="";
-    private  String summary="";
-    private  String notes="";
-    private String type="";
-    private String nickname ="";
+    private String method = "";
+    private String summary = "";
+    private String notes = "";
+    private String type = "";
+    private String nickname = "";
     private DocItem items;
-    private  List<DocParam> parameters =new ArrayList<>();
-    private  List<DocResponseMessage> docResponseMessages = new ArrayList<>();
+    private List<DocParam> parameters = new ArrayList<>();
+    private List<DocResponseMessage> docResponseMessages = new ArrayList<>();
 
     public String getMethod() {
         return method;

@@ -4,7 +4,7 @@ package cn.icodeit.cartman.doc.view;
  * Created by lcf on 2014/12/2.
  */
 public class DocItem {
-    private String $ref ="";
+    private String $ref = "";
 
     public DocItem() {
     }

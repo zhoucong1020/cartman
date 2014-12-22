@@ -10,26 +10,7 @@ import java.util.List;
 /**
  * @author zhoucong
  */
-public abstract class Route {
+public interface Route {
 
-    private String path;
-    private Class<?> clazz;
-    private Method method;
-    private List<ParamImpl> params = new ArrayList<>();
-
-    public Route(String path, Class<?> clazz, Method method) {
-        this.path = path;
-        this.clazz = clazz;
-        this.method = method;
-    }
-
-    public abstract void handle(Request request, Response response);
-
-    public String getPath() {
-        return path;
-    }
-
-    public void addParam(ParamImpl param) {
-        params.add(param);
-    }
+    void handle(Request request, Response response);
 }

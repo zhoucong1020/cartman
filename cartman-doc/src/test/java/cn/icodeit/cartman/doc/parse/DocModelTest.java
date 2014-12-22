@@ -1,6 +1,6 @@
 package cn.icodeit.cartman.doc.parse;
 
-import cn.icodeit.cartman.core.service.JsonConverter;
+import cn.icodeit.cartman.core.TransformerJsonImpl;
 import cn.icodeit.cartman.doc.testService.ServiceB;
 import cn.icodeit.cartman.doc.view.DocItem;
 import cn.icodeit.cartman.doc.view.Operation;
@@ -32,7 +32,7 @@ public class DocModelTest {
         docItem.set$ref("rrrrrr");
         System.out.println(docItem);
         System.out.println(JSON.toJSON(docItem));
-        System.out.println(JsonConverter.getInstance().serialize(docItem));
+        System.out.println(TransformerJsonImpl.getInstance().serialize(docItem));
     }
     @Test
       public void testMethodReturnType() throws NoSuchMethodException {

@@ -4,12 +4,12 @@ package cn.icodeit.cartman.doc.view;
  * Created by lcf on 2014/11/26.
  */
 public class DocParam {
-    private  String name;
+    private String name;
     private String description;
     private boolean required;
     private String type;
-    private  String paramType;
-    private  DocItem items;
+    private String paramType;
+    private DocItem items;
 
     public DocParam() {
     }
