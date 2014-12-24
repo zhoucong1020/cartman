@@ -1,5 +1,6 @@
 package cn.icodeit.cartman.doc.parse;
 
+import cn.icodeit.cartman.core.CartmanBase;
 import cn.icodeit.cartman.core.annotation.Param;
 import cn.icodeit.cartman.core.annotation.Service;
 import cn.icodeit.cartman.core.annotation.ServiceMethod;
@@ -74,16 +75,14 @@ public class DocGenerator {
 
     public static List<Operation> generateOperations(java.lang.reflect.Method method, Service service) {
         List<Operation> operations = new ArrayList<>();
-//        Arrays.asList(service.method()).forEach(m -> {
-//            Operation operation = new Operation();
-//            setReturnType(method, operation);
-//            operation.setMethod(m.name());
-//            operation.setNickname(method.getName());
-//            operation.setSummary(method.getName());
-//            operation.setParameters(generateDocParams(method));
-//            operations.add(operation);
-//            addModel(method);
-//        });
+        Operation operation = new Operation();
+        setReturnType(method, operation);
+        operation.setMethod(CartmanBase.CARTMAN_DEFAULT_METHOD.name());
+        operation.setNickname(method.getName());
+        operation.setSummary(method.getName());
+        operation.setParameters(generateDocParams(method));
+        operations.add(operation);
+        addModel(method);
         return operations;
     }
 

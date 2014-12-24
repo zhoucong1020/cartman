@@ -133,7 +133,11 @@ public class ServiceB {
     public DocInfo docInfo(DocInfo docInfo) {
         return docInfo;
     }
-
+    @ServiceMethod(value = "testChinese", method = RequestMethod.POST,
+            errors = {
+                    @ServiceError(value = 200, description = "")
+            }
+    )
     public String testChinese(String str) {
         return str;
     }
