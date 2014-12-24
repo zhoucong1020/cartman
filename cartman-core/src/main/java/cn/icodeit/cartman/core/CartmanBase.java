@@ -24,10 +24,14 @@ public abstract class CartmanBase {
 
     public static final Transformer CARTMAN_DEFAULT_TRANSFORMER = TransformerJsonImpl.getInstance();
 
+    public static final String CODE_TYPE="UTF-8";
+
     protected static boolean initialized = false;
 
     protected static int port = CARTMAN_DEFAULT_PORT;
     protected static boolean ssl = CARTMAN_DEFAULT_SSL;
+
+    protected static String codeType = CODE_TYPE;
 
     protected static CartmanServer server;
     protected static RouteMatcher matcher;
@@ -54,6 +58,15 @@ public abstract class CartmanBase {
     public synchronized static void converter(Transformer transformer) {
         checkInitialized();
         CartmanBase.transformer = transformer;
+    }
+
+    public synchronized static void codeType(String codeType) {
+        checkInitialized();
+        CartmanBase.codeType = codeType;
+    }
+
+    public static String codeType() {
+        return CartmanBase.codeType;
     }
 
     public static Transformer converter() {

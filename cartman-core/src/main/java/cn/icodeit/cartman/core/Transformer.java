@@ -14,4 +14,6 @@ public interface Transformer {
     public String serialize(Object object);
 
     public <T> T deserialize(String str, Class<T> convertClazz);
+
+    public String contentType();
 }

@@ -28,4 +28,9 @@ public class TransformerJsonImpl implements Transformer {
     public <T> T deserialize(String str, Class<T> convertClazz) {
         return JSON.parseObject(str, convertClazz);
     }
+
+    @Override
+    public String contentType(){
+        return "application/json";
+    }
 }

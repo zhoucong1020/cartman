@@ -36,11 +36,12 @@ public abstract class Action {
 
     public void handle(Request request, Response response) {
         //TODO: ->csj "type 应该根据transformer类型确定，但注意对现有结构影响最小"
-        response.type("application/json");
+        Transformer transformer = Cartman.transformer;
+        response.type(transformer.contentType());
         try {
             Object result = method.invoke(
                     BeanFactory.get(clazz),
-                    getParams(request, TransformerJsonImpl.getInstance()).toArray());
+                    getParams(request, transformer).toArray());
             response.status(200);
             if (result == null) {
                 response.body("");
@@ -66,7 +67,8 @@ public abstract class Action {
             String attribute = getAttribute(param.getName(), request, param.isRequired());
             try {
                 //TODO: ->csj 编码类型应该可配置，应该在Cartman中添加相应方法
-                attribute = URLDecoder.decode(attribute, "utf-8");
+                //attribute = URLDecoder.decode(attribute, "utf-8");
+                attribute = URLDecoder.decode(attribute, Cartman.CODE_TYPE);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
